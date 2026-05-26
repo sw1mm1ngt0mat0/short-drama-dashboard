@@ -124,6 +124,34 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 /* Fade transition */
 .tab-content{transition:opacity 0.25s}
+
+/* 客活监控 */
+.kh-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+.kh-summary-item{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;text-align:center}
+.kh-summary-item .kh-sales{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px}
+.kh-summary-item .kh-count{font-size:22px;font-weight:700;color:var(--cyan)}
+.kh-summary-item .kh-amount{font-size:11px;color:var(--text3);margin-top:2px}
+.kh-table{width:100%;font-size:12px;border-collapse:collapse}
+.kh-table th{color:var(--text3);font-weight:500;padding:5px 6px;border-bottom:1px solid var(--border);text-align:left;font-size:11px;white-space:nowrap}
+.kh-table th.n{text-align:right}
+.kh-table td{padding:5px 6px;border-bottom:1px solid rgba(42,46,63,0.35);font-size:11px}
+.kh-table td.n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.kh-table td.c{text-align:center}
+.kh-client-name{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle}
+.kh-badge{display:inline-block;font-size:10px;font-weight:600;padding:1px 8px;border-radius:8px}
+.kh-badge-hit{background:rgba(34,197,94,0.15);color:var(--green)}
+.kh-badge-near{background:rgba(34,211,238,0.15);color:var(--cyan)}
+.kh-badge-risk{background:rgba(239,68,68,0.1);color:var(--red)}
+.kh-progress-wrap{width:60px;height:5px;background:var(--bg);border-radius:3px;display:inline-block;vertical-align:middle;margin-right:4px}
+.kh-progress-fill{height:100%;border-radius:3px}
+.kh-progress-fill.hit{background:var(--green)}
+.kh-progress-fill.near{background:var(--cyan)}
+.kh-progress-fill.risk{background:var(--orange)}
+.kh-progress-fill.far{background:var(--red)}
+.kh-row-hit{background:rgba(34,197,94,0.04)}
+.kh-row-near{background:rgba(34,211,238,0.04)}
+.kh-expand-btn{background:none;border:none;color:var(--blue2);cursor:pointer;font-size:11px;padding:2px 6px}
+.kh-expand-btn:hover{color:var(--cyan)}
 </style>
 </head>
 <body>
@@ -302,6 +330,45 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 </div>
 
+<!-- 客活监控 -->
+<div class="panel" style="margin-bottom:12px">
+  <div class="panel-title">🎯 客活目标达成监控（客户粒度 · Q2累计消耗 ≥ ¥100,000 = 1客活）</div>
+  
+  <!-- 销售汇总卡片 -->
+  <div class="kh-summary-grid" id="khSalesSummary"></div>
+  <div style="font-size:10px;color:var(--text3);margin-bottom:10px;margin-top:-2px">共 <b id="khTotalCount" style="color:var(--cyan)">--</b> 客活 · 总消耗 <b id="khTotalAmt" style="color:var(--cyan)">--</b></div>
+  
+  <!-- Tab -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchKehuoTab('hit')" id="khTabHit">✅ 已达标客活</button>
+    <button class="tab-btn" onclick="switchKehuoTab('near')" id="khTabNear">🔮 潜在客活预测</button>
+  </div>
+
+  <!-- 已达标详情 -->
+  <div id="khHitContent">
+    <table class="kh-table">
+      <thead><tr>
+        <th style="width:28px">#</th><th>客户名称</th><th>集团</th><th>归属销售</th><th class="n" style="width:100px">Q2消耗(元)</th><th style="width:70px">达标状态</th>
+      </tr></thead>
+      <tbody id="khHitBody"></tbody>
+    </table>
+  </div>
+
+  <!-- 潜在客活预测 -->
+  <div id="khNearContent" style="display:none">
+    <div class="week-note" style="margin-bottom:8px">
+      💡 根据Q2至今（56天）日均消耗 ÷ 剩余35天推算。绿色=预计可达标，黄色=进度偏慢，红色=有风险。
+      <b style="color:var(--cyan)">预计Q2末新增 <span id="khPredictedNew">--</span> 客活</b>
+    </div>
+    <table class="kh-table">
+      <thead><tr>
+        <th style="width:28px">#</th><th>客户名称</th><th>集团</th><th>归属销售</th><th class="n" style="width:90px">当前消耗</th><th class="n" style="width:80px">距达标</th><th style="width:70px">进度</th><th class="n" style="width:70px">日均消耗</th><th class="n" style="width:60px">预计天数</th><th style="width:70px">预测</th>
+      </tr></thead>
+      <tbody id="khNearBody"></tbody>
+    </table>
+  </div>
+</div>
+
 <div class="footer">自包含版本 · 零外部依赖 · 业绩口径 = 总扣费 − 优惠券扣费 · 周期定义：每周四 ~ 次周三 · 已排除3个指定客户 · 多版权客户按版权数均分</div>
 
 <script>
@@ -362,6 +429,9 @@ const D = {
   latest_week: "2026-05-14",
   week_labels: {"2026-05-14": "05/14~05/20", "2026-05-07": "05/07~05/13", "2026-04-30": "04/30~05/06", "2026-04-23": "04/23~04/29", "2026-04-16": "04/16~04/22", "2026-04-09": "04/09~04/15", "2026-04-02": "04/02~04/08", "2026-03-26": "03/26~04/01", "2026-03-19": "03/19~03/25", "2026-03-12": "03/12~03/18", "2026-03-05": "03/05~03/11", "2026-02-26": "02/26~03/04", "2026-02-19": "02/19~02/25", "2026-02-12": "02/12~02/18", "2026-02-05": "02/05~02/11", "2026-01-29": "01/29~02/04", "2026-01-22": "01/22~01/28", "2026-01-15": "01/15~01/21", "2026-01-08": "01/08~01/14", "2026-01-01": "01/01~01/07"},
   identity_pie: [["版权自投", 14627787.03], ["分销", 11632777.93], ["未分类", 7289.42]],
+  
+  // ===== 客活监控 =====
+  kehuo: {"kehuo_threshold":100000,"total_kehuo":15,"q2_remaining_days":35,"by_sales":[{"sales":"王星予","count":10,"total":4213265.43,"clients":[{"name":"嘉兴文奕影视科技有限公司","consumption":1230979.54,"group":"九州"},{"name":"杭州思硕文化创意有限公司第四十九分公司","consumption":751714.83,"group":"掌玩漫剧"},{"name":"沈阳美赞网络科技有限公司","consumption":583026.37,"group":"九州"},{"name":"杭州容量互娱文化传媒有限公司","consumption":338791.13,"group":"容量"},{"name":"嘉兴东锦影视科技有限公司","consumption":310716.51,"group":"九州"},{"name":"湖北名萃网络科技有限公司","consumption":285871.59,"group":"冬日雪漫剧"},{"name":"上海轶瞳网络科技有限公司","consumption":233431.58,"group":"九州"},{"name":"南京链趣网络科技有限公司第一分公司","consumption":190819.91,"group":"呔咯"},{"name":"嘉兴奇克文化传媒有限公司","consumption":154236.15,"group":"九州"},{"name":"北京执享信息科技有限公司","consumption":133677.82,"group":"执享"}]},{"sales":"乌丽娅斯","count":3,"total":680526.08,"clients":[{"name":"深圳市腾讯计算机系统有限公司","consumption":433615.49,"group":"火龙"},{"name":"合肥悦未来科技有限公司青岛第二分公司","consumption":127664.11,"group":"点众"},{"name":"长沙市清樟文化传播有限公司雨花第三分公司","consumption":119246.48,"group":"千玺漫剧"}]},{"sales":"刘迪","count":2,"total":431713.28,"clients":[{"name":"广西雷洛网络科技有限公司长沙分公司","consumption":247103.35,"group":"六壹零"},{"name":"广西雷洛网络科技有限公司湖南分公司","consumption":184609.93,"group":"六壹零"}]}],"near_kehuo":[{"client":"上海音鹅文化传媒有限公司","consumption":91634.54,"gap":8365.46,"progress":91.6,"daily_avg":1636.33,"days_needed":5,"predicted":"可达标","sales":"乌丽娅斯","group":"盟柚漫剧"},{"client":"上海盟柚网络科技有限公司","consumption":89859.86,"gap":10140.14,"progress":89.9,"daily_avg":1604.64,"days_needed":6,"predicted":"可达标","sales":"乌丽娅斯","group":"盟柚漫剧"},{"client":"南昌新触点广告有限公司","consumption":88792.17,"gap":11207.83,"progress":88.8,"daily_avg":1585.57,"days_needed":7,"predicted":"可达标","sales":"乌丽娅斯","group":"汇典漫剧"},{"client":"长沙市清樟文化传播有限公司雨花第六分公司","consumption":85918.12,"gap":14081.88,"progress":85.9,"daily_avg":1534.25,"days_needed":9,"predicted":"可达标","sales":"乌丽娅斯","group":"千玺漫剧"},{"client":"杭州南熙文化创意有限公司第二分公司","consumption":77675.88,"gap":22324.12,"progress":77.7,"daily_avg":1387.07,"days_needed":16,"predicted":"可达标","sales":"王星予","group":"掌玩短剧"},{"client":"北京金海品读科技有限公司天津第十分公司","consumption":73212.72,"gap":26787.28,"progress":73.2,"daily_avg":1307.37,"days_needed":20,"predicted":"可达标","sales":"乌丽娅斯","group":"点众"},{"client":"长沙市清樟文化传播有限公司雨花第五分公司","consumption":69768.07,"gap":30231.93,"progress":69.8,"daily_avg":1245.86,"days_needed":24,"predicted":"可达标","sales":"乌丽娅斯","group":"千玺漫剧"},{"client":"南京链趣网络科技有限公司第二分公司","consumption":66492.34,"gap":33507.66,"progress":66.5,"daily_avg":1187.36,"days_needed":28,"predicted":"可达标","sales":"王星予","group":"呔咯"},{"client":"长沙市清樟文化传播有限公司雨花第四分公司","consumption":62968.73,"gap":37031.27,"progress":63.0,"daily_avg":1124.44,"days_needed":33,"predicted":"可达标","sales":"乌丽娅斯","group":"千玺漫剧"},{"client":"嘉兴飞杰文化传媒有限公司","consumption":61025.06,"gap":38974.94,"progress":61.0,"daily_avg":1089.73,"days_needed":36,"predicted":"有风险","sales":"王星予","group":"九州"}]},
 };
 
 const TARGET = 17000000;
@@ -671,6 +741,99 @@ function renderCopyrightWeek() {
 // ====== INIT: Set default tab label to latest week ======
 document.getElementById('groupTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
 document.getElementById('crTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
+
+// ====== 客活监控渲染 ======
+const KH = D.kehuo;
+let currentKehuoTab = 'hit';
+
+// Sales summary cards
+const sumGrid = document.getElementById('khSalesSummary');
+let totalCount = 0, totalAmt = 0;
+KH.by_sales.forEach(s => {
+  totalCount += s.count; totalAmt += s.total;
+  const div = document.createElement('div');
+  div.className = 'kh-summary-item';
+  div.innerHTML = '<div class="kh-sales">'+s.sales+'</div>'+
+    '<div class="kh-count">'+s.count+' 客活</div>'+
+    '<div class="kh-amount">¥'+Math.round(s.total).toLocaleString()+'</div>';
+  sumGrid.appendChild(div);
+});
+// Add total card
+const totalDiv = document.createElement('div');
+totalDiv.className = 'kh-summary-item';
+totalDiv.style.borderColor = 'rgba(34,211,238,0.3)';
+totalDiv.innerHTML = '<div class="kh-sales" style="color:var(--cyan)">📊 总计</div>'+
+  '<div class="kh-count">'+totalCount+' 客活</div>'+
+  '<div class="kh-amount">¥'+Math.round(totalAmt).toLocaleString()+'</div>';
+sumGrid.appendChild(totalDiv);
+document.getElementById('khTotalCount').textContent = totalCount;
+document.getElementById('khTotalAmt').textContent = '¥'+Math.round(totalAmt).toLocaleString();
+
+// Render hit table
+function renderKehuoHit() {
+  const tbody = document.getElementById('khHitBody');
+  tbody.innerHTML = '';
+  let idx = 0;
+  KH.by_sales.forEach(s => {
+    s.clients.forEach(c => {
+      idx++;
+      const tr = document.createElement('tr');
+      tr.className = 'kh-row-hit';
+      tr.innerHTML = '<td style="color:var(--text3);font-weight:600">'+idx+'</td>'+
+        '<td><span class="kh-client-name" title="'+c.name+'">'+c.name+'</span></td>'+
+        '<td style="color:var(--text2)">'+c.group+'</td>'+
+        '<td style="font-weight:600">'+s.sales+'</td>'+
+        '<td class="n">¥'+Math.round(c.consumption).toLocaleString()+'</td>'+
+        '<td class="c"><span class="kh-badge kh-badge-hit">✓ 已达标</span></td>';
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+// Render near kehuo table
+function renderKehuoNear() {
+  const tbody = document.getElementById('khNearBody');
+  tbody.innerHTML = '';
+  let predictedNew = 0;
+  KH.near_kehuo.forEach((c, i) => {
+    if(c.predicted === '可达标') predictedNew++;
+    const isReachable = c.predicted === '可达标';
+    const isRisk = !isReachable;
+    const progressClass = c.progress >= 80 ? 'hit' : c.progress >= 70 ? 'near' : c.progress >= 60 ? 'risk' : 'far';
+    const badgeClass = isReachable ? 'kh-badge-near' : 'kh-badge-risk';
+    const badgeText = isReachable ? '预计可达标' : '⚠ 有风险';
+    
+    const tr = document.createElement('tr');
+    tr.className = isReachable ? 'kh-row-near' : '';
+    tr.innerHTML = '<td style="color:var(--text3);font-weight:600">'+(i+1)+'</td>'+
+      '<td><span class="kh-client-name" title="'+c.client+'">'+c.client+'</span></td>'+
+      '<td style="color:var(--text2)">'+c.group+'</td>'+
+      '<td style="font-weight:600">'+c.sales+'</td>'+
+      '<td class="n">¥'+Math.round(c.consumption).toLocaleString()+'</td>'+
+      '<td class="n" style="color:var(--orange)">¥'+Math.round(c.gap).toLocaleString()+'</td>'+
+      '<td class="c"><span class="kh-progress-wrap"><span class="kh-progress-fill '+progressClass+'" style="width:'+c.progress+'%"></span></span>'+c.progress+'%</td>'+
+      '<td class="n">¥'+Math.round(c.daily_avg).toLocaleString()+'</td>'+
+      '<td class="n">'+c.days_needed+'天</td>'+
+      '<td class="c"><span class="kh-badge '+badgeClass+'">'+badgeText+'</span></td>';
+    tbody.appendChild(tr);
+  });
+  document.getElementById('khPredictedNew').textContent = predictedNew;
+}
+
+// Tab switching
+function switchKehuoTab(tab) {
+  currentKehuoTab = tab;
+  document.getElementById('khTabHit').className = 'tab-btn' + (tab==='hit'?' active':'');
+  document.getElementById('khTabNear').className = 'tab-btn' + (tab==='near'?' active':'');
+  document.getElementById('khHitContent').style.display = tab==='hit'?'block':'none';
+  document.getElementById('khNearContent').style.display = tab==='near'?'block':'none';
+}
+
+// Initial render
+renderKehuoHit();
+renderKehuoNear();
+document.getElementById('khTabHit').textContent = '✅ 已达标客活（'+KH.total_kehuo+'）';
+document.getElementById('khTabNear').textContent = '🔮 潜在客活预测（'+KH.near_kehuo.length+'）';
 
 // ====== SAFE CHART HELPER ======
 function safeChart(id, fn) {
