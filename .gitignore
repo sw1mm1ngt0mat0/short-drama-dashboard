@@ -1,0 +1,23 @@
+# WorkBuddy workspace data
+.workbuddy/
+
+# Agents and skills
+.agents/
+.trae/
+
+# macOS
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# Temp files
+*.tmp
+*.bak
+*.png
+*.jpg
+
+# Misc internal files
+skills-lock.json
+client_group_mapping.json
+q2-dashboard/
