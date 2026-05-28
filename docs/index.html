@@ -273,6 +273,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="panel">
     <div class="panel-title">📊 版权/分销消耗分布（Q2，按总扣费）</div>
     <div class="chart-wrap"><canvas id="identityChart"></canvas></div>
+    <div class="week-note" style="margin-top:4px">⏳ 待飞书Q列（身份-版权/分销）数据补充后展示分类占比</div>
   </div>
 </div>
 
@@ -318,7 +319,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th></tr></thead>
         <tbody id="crQ2Body"></tbody>
       </table>
-      <div class="week-note" style="margin-top:6px">来源：品牌名称(G列) → 客户名称映射 ⚠️ 待飞书R列补充</div>
+      <div class="week-note" style="margin-top:6px">来源：品牌名称(G列) → 1:N均分后聚合 ⚠️ 待飞书R列(品牌对应版权名称)替换为真实版权归属</div>
     </div>
     <div id="crWeekContent" style="display:none">
       <table class="rank-table">
@@ -326,6 +327,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <tbody id="crWeekBody"></tbody>
       </table>
       <div class="week-note" style="margin-top:4px" id="crWeekNote">--</div>
+    </div>
+  </div>
+  <!-- 分销消耗排名（待Q列数据） -->
+  <div class="panel">
+    <div class="panel-title">📋 分销消耗排名</div>
+    <div id="distContent">
+      <div style="padding:24px;text-align:center;color:var(--text3)">
+        ⏳ 需要飞书"销售关系匹配"sheet的 <b>Q列（身份-版权/分销）</b> 数据<br>
+        <span style="font-size:11px;margin-top:4px;display:inline-block">当前仅含A~M列，请导出包含Q列的完整数据后更新</span>
+      </div>
     </div>
   </div>
 </div>
