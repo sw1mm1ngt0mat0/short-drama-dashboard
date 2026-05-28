@@ -414,4 +414,422 @@ const D = {
   kehuo: {kehuo_threshold: 100000, total_kehuo: 35, q2_remaining_days: 34, by_sales: [{sales: "乌丽娅斯", count: 16, total: 8658986.74, clients: [{name: "合肥精彩文化传媒有限公司", consumption: 1292948.98}, {name: "广州美阅科技有限公司广州第八分公司", consumption: 1199188.66}, {name: "长沙市清樟文化传播有限公司雨花第三分公司", consumption: 1126377.35}, {name: "合肥悦未来科技有限公司青岛第二分公司", consumption: 1001113.07}, {name: "北京金海品读科技有限公司广州第九分公司", consumption: 746292.73}, {name: "深圳市腾讯计算机系统有限公司", consumption: 598474.31}, {name: "上海盟柚网络科技有限公司", consumption: 414125.89}, {name: "合肥悦未来科技有限公司合肥第八分公司", consumption: 394937.01}, {name: "长沙市清樟文化传播有限公司雨花第五分公司", consumption: 316488.25}, {name: "长沙市清樟文化传播有限公司雨花第四分公司", consumption: 305564.71}, {name: "南昌新触点广告有限公司", consumption: 302840.34}, {name: "深圳很有乾文化有限公司", consumption: 276298.31}, {name: "长沙市清樟文化传播有限公司雨花第六分公司", consumption: 230029.72}, {name: "北京金海品读科技有限公司天津第十分公司", consumption: 181367.12}, {name: "上海音鹅文化传媒有限公司", consumption: 159030.23}, {name: "南昌转化极客广告有限公司", consumption: 113910.06}]}, {sales: "刘迪", count: 2, total: 1644412.15, clients: [{name: "广西雷洛网络科技有限公司长沙分公司", consumption: 918275.31}, {name: "广西雷洛网络科技有限公司湖南分公司", consumption: 726136.84}]}, {sales: "王星予", count: 17, total: 13450565.55, clients: [{name: "杭州思硕文化创意有限公司第四十九分公司", consumption: 4095011.4}, {name: "嘉兴奇克文化传媒有限公司", consumption: 1688802.76}, {name: "嘉兴文奕影视科技有限公司", consumption: 1613293.96}, {name: "杭州容量互娱文化传媒有限公司", consumption: 1415608.92}, {name: "南京链趣网络科技有限公司第一分公司", consumption: 929454.77}, {name: "沈阳美赞网络科技有限公司", consumption: 736645.8}, {name: "北京执享信息科技有限公司", consumption: 497643.45}, {name: "嘉兴东锦影视科技有限公司", consumption: 367684.18}, {name: "海南美洲文化传媒有限责任公司武汉第二分公司", consumption: 352549.42}, {name: "上海轶瞳网络科技有限公司", consumption: 329336.42}, {name: "湖北名萃网络科技有限公司", consumption: 321000.55}, {name: "嘉兴飞杰文化传媒有限公司", consumption: 314275.05}, {name: "南京链趣网络科技有限公司第二分公司", consumption: 218896.58}, {name: "杭州南熙文化创意有限公司第二分公司", consumption: 161030.47}, {name: "武汉美圆文化传媒有限公司江汉区分公司", consumption: 147987.27}, {name: "海南美洲文化传媒有限责任公司武汉第四分公司", consumption: 140886.77}, {name: "海南悦驰文化传媒有限公司武汉第三分公司", consumption: 120457.78}]}], near_kehuo: [{name: "广州汝悦文化传播有限公司郑州分公司", current: 98441.97, gap: 1558.03, daily_need: 46.0}, {name: "武汉航蓝网络科技有限公司厦门分公司", current: 72876.83, gap: 27123.17, daily_need: 798.0}, {name: "长沙市卓凌文化传播有限公司江西第七分公司", current: 70877.59, gap: 29122.41, daily_need: 857.0}, {name: "海南悦驰文化传媒有限公司云南分公司", current: 62625.14, gap: 37374.86, daily_need: 1099.0}, {name: "海南畅听科技有限公司", current: 58709.09, gap: 41290.91, daily_need: 1214.0}]},
   gap_to_target: 9427613.82
 };
->
+
+const TARGET = 17000000;
+const FUSE = 10200000;
+
+// ====== HELPERS ======
+function fmtN(v){ return Math.round(v).toLocaleString('zh-CN'); }
+function fmtP(v){ return (v*100).toFixed(1)+'%'; }
+function fmtDate(s){
+  if(!s||s.length<8) return s;
+  return s.slice(4,6)+'/'+s.slice(6,8);
+}
+
+// ====== FILL DATA DATE ======
+document.getElementById('dataDate').textContent = '2026-'+D.last_data_date.slice(4,6)+'-'+D.last_data_date.slice(6,8);
+
+// ====== KPI ROW 1 ======
+document.getElementById('kpiDone').textContent = fmtN(D.q2_total);
+const doneB = document.getElementById('kpiDoneBadge');
+doneB.textContent = fmtP(D.completion_rate)+' 完成';
+doneB.style.cssText = 'background:rgba(239,68,68,0.15);color:#ef4444';
+
+document.getElementById('kpiProjected').textContent = fmtN(D.projected);
+const projB = document.getElementById('kpiProjectedBadge');
+projB.textContent = fmtP(D.projected_rate)+' 平推';
+projB.style.cssText = D.projected_rate>=0.6?'background:rgba(34,197,94,0.15);color:#22c55e':'background:rgba(239,68,68,0.15);color:#ef4444';
+
+document.getElementById('kpiRemain').textContent = fmtN(D.gap_to_target);
+document.getElementById('kpiRemainDays').textContent = '剩余 '+D.remaining+' 天 (至6/30)';
+
+// ====== KPI ROW 2 ======
+document.getElementById('kpiDailyAvg').textContent = fmtN(D.q2_daily_avg);
+const qoqB = document.getElementById('kpiQoQ');
+qoqB.textContent = '环比Q1 '+(D.qoq>0?'+':'')+D.qoq+'%';
+qoqB.style.cssText = D.qoq>=0?'background:rgba(34,197,94,0.15);color:#22c55e':'background:rgba(239,68,68,0.15);color:#ef4444';
+
+document.getElementById('kpiDailyTarget').textContent = fmtN(D.remaining_daily_target);
+document.getElementById('kpiGap100').textContent = (D.gap_100>0?'+':'')+fmtN(D.gap_100);
+
+const g60El = document.getElementById('kpiGap60');
+const g60Sub = document.getElementById('kpiGap60Sub');
+g60El.textContent = (D.gap_60>0?'+':'')+fmtN(D.gap_60);
+if(D.gap_60<0){
+  g60El.style.color='var(--green)';
+  g60Sub.textContent='已超越60%节奏 ✓';
+  g60Sub.style.color='var(--green)';
+}else{
+  g60El.style.color='var(--red)';
+  g60Sub.textContent='需额外日均增长';
+  g60Sub.style.color='var(--red)';
+}
+
+// ====== PROGRESS ======
+const pct = Math.min(D.completion_rate*100, 100);
+const fill = document.getElementById('progressFill');
+fill.style.width = pct+'%';
+fill.textContent = fmtP(D.completion_rate);
+fill.style.background = pct>=60?'linear-gradient(90deg,#16a34a,#22c55e)':pct>=45?'linear-gradient(90deg,#d97706,#f59e0b)':'linear-gradient(90deg,#dc2626,#ef4444)';
+
+document.getElementById('progressMeta').textContent = '已用 '+D.q2_data_days+' 天 · 剩余 '+D.remaining+' 天';
+document.getElementById('gaugeCurr').textContent = fmtP(D.completion_rate);
+document.getElementById('gaugeProj').textContent = fmtP(D.projected_rate);
+document.getElementById('gaugeFuse').textContent = (D.gap_to_fuse_amount/10000).toFixed(1);
+document.getElementById('gaugeRemain').textContent = D.remaining;
+
+// Fuse badge
+const badge = document.getElementById('fuseBadge');
+const pr = D.projected_rate*100;
+if(pr>=80){badge.className='fuse-badge fuse-safe';badge.textContent='平推 '+pr.toFixed(1)+'% · 安全';}
+else if(pr>=60){badge.className='fuse-badge fuse-warn';badge.textContent='平推 '+pr.toFixed(1)+'% · 临近熔断';}
+else{badge.className='fuse-badge fuse-danger';badge.textContent='平推 '+pr.toFixed(1)+'% · 熔断风险';}
+
+// ====== 周完整性 ======
+function parseDate(s){ return new Date(s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8)); }
+const lastDataDt = parseDate(D.last_data_date);
+const currWeekEndDt = parseDate(D.curr_week_end);
+const isCurrentWeekComplete = lastDataDt >= currWeekEndDt;
+
+const showWeek = isCurrentWeekComplete ? {
+  total: D.curr_week_total, daily_avg: D.curr_week_total / 7,
+  days: D.curr_week_days, start: D.curr_week_start, end: D.curr_week_end,
+  wow_to_prev: D.wow, label: '本周', note: '当前完整周'
+} : {
+  total: D.prev_week_total, daily_avg: D.prev_week_daily_avg,
+  days: D.prev_week_days, start: D.prev_week_start, end: D.prev_week_end,
+  prev_wow_daily: D.prev_wow_daily, label: '上周', note: '本周进行中，显示上周完整数据'
+};
+
+// KPI 本周卡片
+document.getElementById('kpiWeekLabel').textContent = showWeek.label+'业绩日均消耗';
+const weekEl = document.getElementById('kpiWeek');
+const weekB = document.getElementById('kpiWeekBadge');
+const weekNote = document.getElementById('kpiWeekNote');
+weekEl.textContent = fmtN(showWeek.daily_avg);
+if(showWeek.prev_wow_daily !== null && showWeek.prev_wow_daily !== undefined){
+  weekB.textContent = (showWeek.prev_wow_daily>0?'+':'')+showWeek.prev_wow_daily.toFixed(1)+'% 环比上'+showWeek.label;
+  weekB.style.cssText = showWeek.prev_wow_daily>=0?'background:rgba(34,197,94,0.15);color:#22c55e':'background:rgba(239,68,68,0.15);color:#ef4444';
+} else if(showWeek.wow_to_prev !== null){
+  weekB.textContent = (showWeek.wow_to_prev>0?'+':'')+showWeek.wow_to_prev.toFixed(1)+'% 环比上周';
+  weekB.style.cssText = showWeek.wow_to_prev>=0?'background:rgba(34,197,94,0.15);color:#22c55e':'background:rgba(239,68,68,0.15);color:#ef4444';
+} else {
+  weekB.textContent = '本周进行中'; weekB.style.cssText='background:rgba(92,96,128,0.3);color:#8b8fa8';
+}
+weekNote.textContent = '周期: '+fmtDate(showWeek.start)+'~'+fmtDate(showWeek.end)+(isCurrentWeekComplete?'':' · 本周未完整');
+
+// 图表标题
+document.getElementById('weekChartTitle').textContent = showWeek.label+'分天消耗';
+document.getElementById('weekRangeLabel').textContent = fmtDate(showWeek.start)+'(周四)~'+fmtDate(showWeek.end)+'(周三)';
+
+// ====== CHART 1: 本周/上周分天柱状图 ======
+const weekDayLabels = [];
+const weekDayData = [];
+const weekDayColors = [];
+const dataMap = {};
+showWeek.days.forEach(([d,v]) => dataMap[d]=v);
+const wkStartDt = parseDate(showWeek.start);
+for(let i=0;i<7;i++){
+  const dt = new Date(wkStartDt);
+  dt.setDate(dt.getDate()+i);
+  const key = dt.toISOString().slice(0,10).replace(/-/g,'');
+  weekDayLabels.push((dt.getMonth()+1)+'/'+(dt.getDate())+' 周'+['日','一','二','三','四','五','六'][dt.getDay()]);
+  const v = dataMap[key]||0;
+  weekDayData.push(v);
+  weekDayColors.push(v>0 ? 'rgba(34,211,238,0.85)' : 'rgba(42,46,63,0.6)');
+}
+safeChart('weekDayChart', function(cvs){
+  new Chart(cvs,{
+    type:'bar',
+    data:{labels:weekDayLabels,datasets:[{label:'日业绩',data:weekDayData,backgroundColor:weekDayColors,borderRadius:5,borderSkipped:false}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1d28',titleColor:'#e4e6ef',bodyColor:'#e4e6ef',borderColor:'#2a2e3f',borderWidth:1,callbacks:{label:ctx=>ctx.parsed.y>0?'¥'+ctx.parsed.y.toLocaleString():'暂无数据'}}},
+      scales:{
+        x:{ticks:{color:'#5c6080',font:{size:11}},grid:{display:false}},
+        y:{ticks:{color:'#5c6080',font:{size:10},callback:v=>(v/10000).toFixed(0)+'万'},grid:{color:'rgba(42,46,63,0.3)'}}
+      }
+    }
+  });
+});
+
+// ====== CHART 2: 全年分周趋势 ======
+const allWkData = D.all_weeks_chart;
+const wkLabels = allWkData.map(w=>w.label);
+const wkVals = allWkData.map(w=>w.total);
+const wkColors = allWkData.map(w=>{
+  if(w.is_current && !isCurrentWeekComplete) return 'rgba(245,158,11,0.35)';
+  if(w.is_current && isCurrentWeekComplete) return 'rgba(245,158,11,0.85)';
+  if(w.qtr==='Q2') return 'rgba(96,165,250,0.75)';
+  return 'rgba(92,96,128,0.45)';
+});
+const wkBorderColors = allWkData.map(w=> w.is_current && !isCurrentWeekComplete ? 'rgba(245,158,11,0.8)' : 'transparent');
+const wkBorderWidths = allWkData.map(w=> w.is_current && !isCurrentWeekComplete ? 1.5 : 0);
+
+safeChart('allWeekChart', function(cvs){
+  new Chart(cvs,{
+    type:'bar',
+    data:{labels:wkLabels,datasets:[{label:'周业绩',data:wkVals,backgroundColor:wkColors,borderColor:wkBorderColors,borderWidth:wkBorderWidths,borderRadius:4,borderSkipped:false}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1d28',titleColor:'#e4e6ef',bodyColor:'#e4e6ef',borderColor:'#2a2e3f',borderWidth:1,callbacks:{title:ctx=>allWkData[ctx[0].dataIndex].label+'周',label:ctx=>'¥'+(ctx.parsed.y/10000).toFixed(1)+'万',afterLabel:ctx=>allWkData[ctx.dataIndex].is_current&&!isCurrentWeekComplete?allWkData[ctx.dataIndex].qtr+' · 本周进行中':allWkData[ctx.dataIndex].qtr}}},
+      scales:{
+        x:{ticks:{color:'#5c6080',font:{size:9},maxRotation:45},grid:{display:false}},
+        y:{ticks:{color:'#5c6080',font:{size:10},callback:v=>(v/10000).toFixed(0)+'万'},grid:{color:'rgba(42,46,63,0.3)'}}
+      }
+    }
+  });
+});
+
+// ====== CHART 3: 近30日趋势 ======
+const dlabels = D.recent_daily.map(d=>fmtDate(d[0]));
+const dvals = D.recent_daily.map(d=>d[1]);
+const maMap = {}; D.ma7.forEach(m=>maMap[m[0]]=m[1]);
+const maVals = D.recent_daily.map(d=>maMap[d[0]]!==undefined?maMap[d[0]]:null);
+
+safeChart('dailyChart', function(cvs){
+  new Chart(cvs,{
+    type:'line',
+    data:{labels:dlabels,datasets:[
+      {label:'每日业绩',data:dvals,borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.08)',fill:true,tension:0.3,pointRadius:2,pointHoverRadius:5,borderWidth:2},
+      {label:'7日均线',data:maVals,borderColor:'#a78bfa',borderDash:[5,3],tension:0.4,pointRadius:0,borderWidth:2,spanGaps:true},
+      {label:'100%达标线',data:dvals.map(()=>D.remaining_daily_target),borderColor:'rgba(239,68,68,0.35)',borderDash:[8,4],pointRadius:0,borderWidth:1,fill:false},
+      {label:'60%达标线',data:dvals.map(()=>(FUSE-D.q2_total)/D.remaining+D.q2_daily_avg),borderColor:'rgba(34,197,94,0.35)',borderDash:[8,4],pointRadius:0,borderWidth:1,fill:false}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8b8fa8',font:{size:10},usePointStyle:true,padding:10}},tooltip:{backgroundColor:'#1a1d28',titleColor:'#e4e6ef',bodyColor:'#e4e6ef',borderColor:'#2a2e3f',borderWidth:1,callbacks:{label:ctx=>ctx.dataset.label+': ¥'+Math.round(ctx.parsed.y||0).toLocaleString()}}},
+      scales:{
+        x:{ticks:{color:'#5c6080',font:{size:10},maxRotation:0},grid:{color:'rgba(42,46,63,0.3)'}},
+        y:{ticks:{color:'#5c6080',font:{size:10},callback:v=>(v/10000).toFixed(0)+'万'},grid:{color:'rgba(42,46,63,0.3)'}}
+      }
+    }
+  });
+});
+
+// ====== IDENTITY PIE (版权/分销) ======
+const identityColors = ['#22c55e', '#f59e0b', '#6366f1', '#22d3ee', '#60a5fa', '#a78bfa'];
+safeChart('identityChart', function(cvs){
+  new Chart(cvs,{
+    type:'doughnut',
+    data:{labels:D.identity_pie.map(x=>x[0]),datasets:[{data:D.identity_pie.map(x=>x[1]),backgroundColor:identityColors,borderWidth:0,hoverOffset:6}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'50%',
+      plugins:{
+        legend:{position:'bottom',labels:{color:'#8b8fa8',font:{size:11},padding:8,usePointStyle:true,boxWidth:8}},
+        tooltip:{backgroundColor:'#1a1d28',titleColor:'#e4e6ef',bodyColor:'#e4e6ef',borderColor:'#2a2e3f',borderWidth:1,callbacks:{label:ctx=>ctx.label+': ¥'+(ctx.parsed/10000).toFixed(1)+'万 ('+(ctx.parsed/D.identity_pie.reduce((a,b)=>a+b[1],0)*100).toFixed(1)+'%)'}}
+      }
+    }
+  });
+});
+
+// ====== RANK TABLE RENDER HELPER ======
+function renderRankTable(tbodyId, data, totalOverride) {
+  const total = totalOverride || data.reduce((a,b)=>a+b[1],0);
+  const max = data[0] ? data[0][1] : 1;
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = '';
+  data.forEach(([name,val],i)=>{
+    const pct = (val/total*100).toFixed(1);
+    const bw = (val/max*100).toFixed(1);
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td style="color:var(--text3);font-weight:600">'+(i+1)+'</td>'+
+      '<td class="name" title="'+name+'">'+name+'</td>'+
+      '<td class="rank-bar-wrap"><div class="rank-bar"><div class="rank-bar-fill" style="width:'+bw+'%"></div></div></td>'+
+      '<td class="num">'+Math.round(val).toLocaleString()+'</td>'+
+      '<td class="pct">'+pct+'%</td>';
+    tbody.appendChild(tr);
+  });
+  return total;
+}
+
+// ====== INITIAL RENDER: Q2 rankings (before charts, so they always show) ======
+renderRankTable('groupQ2Body', D.q2_group_top10);
+renderRankTable('crQ2Body', D.q2_copyright_top10);
+
+// ====== TAB SWITCHING: Group ======
+let currentGroupTab = 'q2';
+let currentCopyrightTab = 'q2';
+
+function switchGroupTab(tab) {
+  currentGroupTab = tab;
+  document.getElementById('groupTabQ2').className = 'tab-btn' + (tab==='q2'?' active':'');
+  document.getElementById('groupTabWeek').className = 'tab-btn' + (tab==='week'?' active':'');
+  document.getElementById('groupQ2Content').style.display = tab==='q2'?'block':'none';
+  document.getElementById('groupWeekContent').style.display = tab==='week'?'block':'none';
+  document.getElementById('groupWeekPicker').style.display = tab==='week'?'block':'none';
+  if(tab==='week') {
+    initGroupWeekPicker();
+    renderGroupWeek();
+  }
+}
+
+function initGroupWeekPicker() {
+  const sel = document.getElementById('groupWeekSelect');
+  if(sel.options.length > 0) return;
+  D.weeks.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w;
+    opt.textContent = D.week_labels[w] || w;
+    if(w === D.latest_week) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function renderGroupWeek() {
+  const sel = document.getElementById('groupWeekSelect');
+  const wk = sel.value || D.latest_week;
+  const data = D.week_group_top10[wk] || [];
+  const total = data.reduce((a,b)=>a+b[1],0);
+  renderRankTable('groupWeekBody', data, total);
+  document.getElementById('groupWeekNote').textContent = '周期: '+ (D.week_labels[wk]||wk) + ' · 总消耗: ¥' + Math.round(total).toLocaleString();
+}
+
+function switchCopyrightTab(tab) {
+  currentCopyrightTab = tab;
+  document.getElementById('crTabQ2').className = 'tab-btn' + (tab==='q2'?' active':'');
+  document.getElementById('crTabWeek').className = 'tab-btn' + (tab==='week'?' active':'');
+  document.getElementById('crQ2Content').style.display = tab==='q2'?'block':'none';
+  document.getElementById('crWeekContent').style.display = tab==='week'?'block':'none';
+  document.getElementById('crWeekPicker').style.display = tab==='week'?'block':'none';
+  if(tab==='week') {
+    initCopyrightWeekPicker();
+    renderCopyrightWeek();
+  }
+}
+
+function initCopyrightWeekPicker() {
+  const sel = document.getElementById('crWeekSelect');
+  if(sel.options.length > 0) return;
+  D.weeks.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w;
+    opt.textContent = D.week_labels[w] || w;
+    if(w === D.latest_week) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function renderCopyrightWeek() {
+  const sel = document.getElementById('crWeekSelect');
+  const wk = sel.value || D.latest_week;
+  const data = D.week_copyright_top10[wk] || [];
+  const total = data.reduce((a,b)=>a+b[1],0);
+  renderRankTable('crWeekBody', data, total);
+  document.getElementById('crWeekNote').textContent = '周期: '+ (D.week_labels[wk]||wk) + ' · 总消耗: ¥' + Math.round(total).toLocaleString();
+}
+
+// ====== INIT: Set default tab label to latest week ======
+document.getElementById('groupTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
+document.getElementById('crTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
+
+// ====== 客活监控渲染 ======
+const KH = D.kehuo;
+let currentKehuoTab = 'hit';
+
+// Sales summary cards
+const sumGrid = document.getElementById('khSalesSummary');
+let totalCount = 0, totalAmt = 0;
+KH.by_sales.forEach(s => {
+  totalCount += s.count; totalAmt += s.total;
+  const div = document.createElement('div');
+  div.className = 'kh-summary-item';
+  div.innerHTML = '<div class="kh-sales">'+s.sales+'</div>'+
+    '<div class="kh-count">'+s.count+' 客活</div>'+
+    '<div class="kh-amount">¥'+Math.round(s.total).toLocaleString()+'</div>';
+  sumGrid.appendChild(div);
+});
+// Add total card
+const totalDiv = document.createElement('div');
+totalDiv.className = 'kh-summary-item';
+totalDiv.style.borderColor = 'rgba(34,211,238,0.3)';
+totalDiv.innerHTML = '<div class="kh-sales" style="color:var(--cyan)">📊 总计</div>'+
+  '<div class="kh-count">'+totalCount+' 客活</div>'+
+  '<div class="kh-amount">¥'+Math.round(totalAmt).toLocaleString()+'</div>';
+sumGrid.appendChild(totalDiv);
+document.getElementById('khTotalCount').textContent = totalCount;
+document.getElementById('khTotalAmt').textContent = '¥'+Math.round(totalAmt).toLocaleString();
+
+// Render hit table
+function renderKehuoHit() {
+  const tbody = document.getElementById('khHitBody');
+  tbody.innerHTML = '';
+  let idx = 0;
+  KH.by_sales.forEach(s => {
+    s.clients.forEach(c => {
+      idx++;
+      const tr = document.createElement('tr');
+      tr.className = 'kh-row-hit';
+      tr.innerHTML = '<td style="color:var(--text3);font-weight:600">'+idx+'</td>'+
+        '<td><span class="kh-client-name" title="'+c.name+'">'+c.name+'</span></td>'+
+        '<td style="color:var(--text2)">'+c.group+'</td>'+
+        '<td style="font-weight:600">'+s.sales+'</td>'+
+        '<td class="n">¥'+Math.round(c.consumption).toLocaleString()+'</td>'+
+        '<td class="c"><span class="kh-badge kh-badge-hit">✓ 已达标</span></td>';
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+// Render near kehuo table
+function renderKehuoNear() {
+  const tbody = document.getElementById('khNearBody');
+  tbody.innerHTML = '';
+  let predictedNew = 0;
+  KH.near_kehuo.forEach((c, i) => {
+    if(c.predicted === '可达标') predictedNew++;
+    const isReachable = c.predicted === '可达标';
+    const isRisk = !isReachable;
+    const progressClass = c.progress >= 80 ? 'hit' : c.progress >= 70 ? 'near' : c.progress >= 60 ? 'risk' : 'far';
+    const badgeClass = isReachable ? 'kh-badge-near' : 'kh-badge-risk';
+    const badgeText = isReachable ? '预计可达标' : '⚠ 有风险';
+    
+    const tr = document.createElement('tr');
+    tr.className = isReachable ? 'kh-row-near' : '';
+    tr.innerHTML = '<td style="color:var(--text3);font-weight:600">'+(i+1)+'</td>'+
+      '<td><span class="kh-client-name" title="'+c.client+'">'+c.client+'</span></td>'+
+      '<td style="color:var(--text2)">'+c.group+'</td>'+
+      '<td style="font-weight:600">'+c.sales+'</td>'+
+      '<td class="n">¥'+Math.round(c.consumption).toLocaleString()+'</td>'+
+      '<td class="n" style="color:var(--orange)">¥'+Math.round(c.gap).toLocaleString()+'</td>'+
+      '<td class="c"><span class="kh-progress-wrap"><span class="kh-progress-fill '+progressClass+'" style="width:'+c.progress+'%"></span></span>'+c.progress+'%</td>'+
+      '<td class="n">¥'+Math.round(c.daily_avg).toLocaleString()+'</td>'+
+      '<td class="n">'+c.days_needed+'天</td>'+
+      '<td class="c"><span class="kh-badge '+badgeClass+'">'+badgeText+'</span></td>';
+    tbody.appendChild(tr);
+  });
+  document.getElementById('khPredictedNew').textContent = predictedNew;
+}
+
+// Tab switching
+function switchKehuoTab(tab) {
+  currentKehuoTab = tab;
+  document.getElementById('khTabHit').className = 'tab-btn' + (tab==='hit'?' active':'');
+  document.getElementById('khTabNear').className = 'tab-btn' + (tab==='near'?' active':'');
+  document.getElementById('khHitContent').style.display = tab==='hit'?'block':'none';
+  document.getElementById('khNearContent').style.display = tab==='near'?'block':'none';
+}
+
+// Initial render
+renderKehuoHit();
+renderKehuoNear();
+document.getElementById('khTabHit').textContent = '✅ 已达标客活（'+KH.total_kehuo+'）';
+document.getElementById('khTabNear').textContent = '🔮 潜在客活预测（'+KH.near_kehuo.length+'）';
+
+// ====== SAFE CHART HELPER ======
+function safeChart(id, fn) {
+  var el = document.getElementById(id);
+  if(!el) return;
+  if(typeof Chart === 'undefined') {
+    el.parentElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text3);font-size:12px">📊 图表库加载中…若长时间空白请刷新</div>';
+    return;
+  }
+  try { fn(el); }
+  catch(e) {
+    console.warn('Chart '+id+' failed:', e);
+    el.parentElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text3);font-size:12px">⚠ 图表加载失败，数据仍可查看</div>';
+  }
+}
+</script>
+</body>
+</html>
