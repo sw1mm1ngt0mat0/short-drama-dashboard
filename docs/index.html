@@ -264,16 +264,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 </div>
 
-<!-- CHARTS ROW 2：近30日趋势 + 版权/分销饼图 -->
+<!-- CHARTS ROW 2：近30日趋势 + 版权/分销堆积图 -->
 <div class="row row-2-1">
   <div class="panel">
     <div class="panel-title">📈 Q2每日业绩趋势（近30日 + 7日均线）</div>
     <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
   </div>
   <div class="panel">
-    <div class="panel-title">📊 版权/分销消耗分布（Q2，按总扣费）</div>
+    <div class="panel-title">📊 版权/分销消耗周趋势（堆积图）</div>
     <div class="chart-wrap"><canvas id="identityChart"></canvas></div>
-    <div class="week-note" style="margin-top:4px">⏳ 待飞书Q列（身份-版权/分销）数据补充后展示分类占比</div>
+    <div class="week-note" style="margin-top:4px">按飞书Q列身份字段分类，总扣费口径，分周堆积</div>
   </div>
 </div>
 
@@ -319,7 +319,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th></tr></thead>
         <tbody id="crQ2Body"></tbody>
       </table>
-      <div class="week-note" style="margin-top:6px">来源：品牌名称(G列) → 1:N均分后聚合 ⚠️ 待飞书R列(品牌对应版权名称)替换为真实版权归属</div>
+      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"版权自投"+R列品牌对应版权名称→聚合到销售定义集团名称 · 总扣费直接求和</div>
     </div>
     <div id="crWeekContent" style="display:none">
       <table class="rank-table">
@@ -329,14 +329,29 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <div class="week-note" style="margin-top:4px" id="crWeekNote">--</div>
     </div>
   </div>
-  <!-- 分销消耗排名（待Q列数据） -->
+  <!-- 分销消耗排名 -->
   <div class="panel">
     <div class="panel-title">📋 分销消耗排名</div>
-    <div id="distContent">
-      <div style="padding:24px;text-align:center;color:var(--text3)">
-        ⏳ 需要飞书"销售关系匹配"sheet的 <b>Q列（身份-版权/分销）</b> 数据<br>
-        <span style="font-size:11px;margin-top:4px;display:inline-block">当前仅含A~M列，请导出包含Q列的完整数据后更新</span>
-      </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchDistTab('q2')" id="distTabQ2">Q2累计</button>
+      <button class="tab-btn" onclick="switchDistTab('week')" id="distTabWeek">👈 上周（完整周）</button>
+    </div>
+    <div class="week-selector" id="distWeekPicker" style="display:none">
+      <select id="distWeekSelect" onchange="renderDistWeek()"></select>
+    </div>
+    <div id="distQ2Content">
+      <table class="rank-table">
+        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th></tr></thead>
+        <tbody id="distQ2Body"></tbody>
+      </table>
+      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"分销"→聚合到销售定义集团名称 · 总扣费直接求和</div>
+    </div>
+    <div id="distWeekContent" style="display:none">
+      <table class="rank-table">
+        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">周消耗(元)</th><th class="pct" style="width:52px">占比</th></tr></thead>
+        <tbody id="distWeekBody"></tbody>
+      </table>
+      <div class="week-note" style="margin-top:4px" id="distWeekNote">--</div>
     </div>
   </div>
 </div>
@@ -351,24 +366,14 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   
   <!-- Tab -->
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchKehuoTab('hit')" id="khTabHit">✅ 已达标客活</button>
-    <button class="tab-btn" onclick="switchKehuoTab('near')" id="khTabNear">🔮 潜在客活预测</button>
-  </div>
-
-  <!-- 已达标详情 -->
-  <div id="khHitContent">
-    <table class="kh-table">
-      <thead><tr>
-        <th style="width:28px">#</th><th>客户名称</th><th>集团</th><th>归属销售</th><th class="n" style="width:100px">Q2消耗(元)</th><th style="width:70px">达标状态</th>
-      </tr></thead>
-      <tbody id="khHitBody"></tbody>
-    </table>
+    <button class="tab-btn active" onclick="switchKehuoTab('near')" id="khTabNear">🔮 潜在客活预测</button>
+    <button class="tab-btn" onclick="switchKehuoTab('hit')" id="khTabHit">✅ 已达标客活</button>
   </div>
 
   <!-- 潜在客活预测 -->
-  <div id="khNearContent" style="display:none">
+  <div id="khNearContent">
     <div class="week-note" style="margin-bottom:8px">
-      💡 根据Q2至今（56天）日均消耗 ÷ 剩余35天推算。绿色=预计可达标，黄色=进度偏慢，红色=有风险。
+      💡 根据Q2至今（57天）日均消耗 ÷ 剩余天数推算。绿色=预计可达标，红色=有风险。
       <b style="color:var(--cyan)">预计Q2末新增 <span id="khPredictedNew">--</span> 客活</b>
     </div>
     <table class="kh-table">
@@ -376,6 +381,16 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
         <th style="width:28px">#</th><th>客户名称</th><th>集团</th><th>归属销售</th><th class="n" style="width:90px">当前消耗</th><th class="n" style="width:80px">距达标</th><th style="width:70px">进度</th><th class="n" style="width:70px">日均消耗</th><th class="n" style="width:60px">预计天数</th><th style="width:70px">预测</th>
       </tr></thead>
       <tbody id="khNearBody"></tbody>
+    </table>
+  </div>
+
+  <!-- 已达标详情 -->
+  <div id="khHitContent" style="display:none">
+    <table class="kh-table">
+      <thead><tr>
+        <th style="width:28px">#</th><th>客户名称</th><th>集团</th><th>归属销售</th><th class="n" style="width:100px">Q2消耗(元)</th><th style="width:70px">达标状态</th>
+      </tr></thead>
+      <tbody id="khHitBody"></tbody>
     </table>
   </div>
 </div>
@@ -619,70 +634,82 @@ const D = {
   ],
   q2_group_top10: [
     ["九州", 2984715.61],
+    ["掌玩", 1000183.12],
     ["点众", 974338.18],
-    ["掌玩漫剧", 861048.38],
     ["六壹零", 470518.01],
-    ["千玺漫剧", 456724.92],
+    ["千玺", 456724.92],
     ["火龙", 450225.99],
     ["容量", 418310.71],
-    ["冬日雪漫剧", 321000.55],
+    ["冬日雪", 321000.55],
     ["呔咯", 299003.13],
-    ["盟柚漫剧", 262940.06]
+    ["盟柚", 275194.35]
   ],
   q2_copyright_top10: [
-    ["可乐漫剧", 2954047.07],
-    ["火龙漫剧", 450225.99],
-    ["河马剧场", 355443.55],
-    ["繁花剧场", 355280.65],
-    ["屿冬漫剧", 160500.28],
-    ["冬星漫剧", 160500.28],
-    ["超好看剧场", 139436.90],
-    ["沙滩剧场", 139436.90],
-    ["桃子看吧", 139436.90],
-    ["星空剧院", 123297.38]
+    ["九州", 2984715.61],
+    ["点众", 974338.18],
+    ["火龙", 450225.99],
+    ["容量", 418310.71],
+    ["冬日雪", 321000.55],
+    ["呔咯", 299003.13],
+    ["盟柚", 159030.23],
+    ["掌玩", 139134.74],
+    ["花生", 76468.42],
+    ["迪迅漫剧", 55158.23]
+  ],
+  q2_distribution_top10: [
+    ["掌玩", 861048.38],
+    ["六壹零", 470518.01],
+    ["千玺", 456724.92],
+    ["汇典", 156103.58],
+    ["执享", 155876.80],
+    ["有你", 140658.74],
+    ["盟柚", 116164.12],
+    ["鹏润漫剧", 41694.82],
+    ["瑞达尔", 38763.60],
+    ["爱尚", 34386.03]
   ],
   week_group_top10: {
     "20260521": [
       ["九州", 336066.80],
       ["点众", 139808.53],
-      ["掌玩漫剧", 93945.45],
-      ["盟柚漫剧", 76597.68],
+      ["掌玩", 110703.69],
+      ["盟柚", 87881.43],
       ["容量", 68419.90],
-      ["千玺漫剧", 64154.05],
+      ["千玺", 64154.05],
       ["花生", 41362.16],
       ["呔咯", 37788.36],
       ["六壹零", 34264.71],
-      ["冬日雪漫剧", 30548.57]
+      ["冬日雪", 30548.57]
     ],
     "20260514": [
       ["九州", 315196.49],
       ["点众", 249484.22],
-      ["掌玩漫剧", 94202.51],
+      ["掌玩", 109820.74],
       ["容量", 49578.55],
-      ["千玺漫剧", 44193.21],
-      ["冬日雪漫剧", 42035.74],
+      ["千玺", 44193.21],
+      ["冬日雪", 42035.74],
       ["六壹零", 39528.94],
       ["呔咯", 37258.75],
-      ["盟柚漫剧", 33016.56],
+      ["盟柚", 33876.39],
       ["花生", 28485.98]
     ],
     "20260507": [
       ["九州", 342094.51],
       ["点众", 203167.46],
-      ["掌玩漫剧", 95879.04],
+      ["掌玩", 115744.28],
       ["容量", 57688.30],
       ["六壹零", 45129.73],
-      ["千玺漫剧", 39500.90],
+      ["千玺", 39500.90],
       ["呔咯", 38276.80],
-      ["冬日雪漫剧", 30563.87],
+      ["冬日雪", 30563.87],
       ["火龙", 22496.91],
-      ["掌玩短剧", 19865.24]
+      ["有推", 13109.85]
     ],
     "20260430": [
       ["九州", 412311.30],
-      ["掌玩漫剧", 131161.68],
-      ["千玺漫剧", 92600.50],
-      ["冬日雪漫剧", 80115.74],
+      ["掌玩", 144872.86],
+      ["千玺", 92600.50],
+      ["冬日雪", 80115.74],
       ["点众", 78682.40],
       ["容量", 64272.54],
       ["六壹零", 51392.98],
@@ -692,35 +719,35 @@ const D = {
     ],
     "20260423": [
       ["九州", 424519.39],
-      ["冬日雪漫剧", 105424.02],
-      ["掌玩漫剧", 72119.54],
-      ["千玺漫剧", 60993.52],
+      ["冬日雪", 105424.02],
+      ["掌玩", 82013.03],
+      ["千玺", 60993.52],
       ["点众", 39424.73],
       ["容量", 36756.20],
       ["六壹零", 36143.59],
       ["呔咯", 34235.03],
       ["火龙", 24036.68],
-      ["汇典漫剧", 19209.76]
+      ["汇典", 19209.76]
     ],
     "20260416": [
       ["九州", 333718.10],
-      ["掌玩漫剧", 85575.68],
+      ["掌玩", 104135.19],
       ["六壹零", 56453.48],
-      ["千玺漫剧", 47365.19],
+      ["千玺", 47365.19],
       ["容量", 46993.67],
       ["呔咯", 36576.97],
-      ["冬日雪漫剧", 32312.61],
-      ["盟柚漫剧", 29007.83],
-      ["火龙", 21536.02],
-      ["有你漫剧", 21249.19]
+      ["冬日雪", 32312.61],
+      ["盟柚", 29007.83],
+      ["有你", 28166.14],
+      ["火龙", 21536.02]
     ],
     "20260409": [
       ["九州", 470845.01],
-      ["掌玩漫剧", 110055.79],
+      ["掌玩", 125625.41],
       ["六壹零", 90404.01],
       ["点众", 81210.90],
-      ["千玺漫剧", 54661.48],
-      ["盟柚漫剧", 50309.27],
+      ["千玺", 54661.48],
+      ["盟柚", 50309.27],
       ["容量", 38347.57],
       ["火龙", 27318.89],
       ["呔咯", 26477.62],
@@ -728,137 +755,247 @@ const D = {
     ],
     "20260402": [
       ["九州", 317046.04],
+      ["掌玩", 190377.22],
       ["火龙", 185817.48],
       ["点众", 169328.94],
-      ["掌玩漫剧", 163068.64],
       ["六壹零", 111822.82],
       ["容量", 49456.35],
-      ["千玺漫剧", 48120.88],
+      ["千玺", 48120.88],
       ["呔咯", 34781.99],
-      ["汇典漫剧", 31264.43],
-      ["有你漫剧", 29282.44]
+      ["有你", 31505.75],
+      ["汇典", 31264.43]
     ],
     "20260326": [
       ["火龙", 90309.57],
       ["九州", 32917.97],
-      ["掌玩漫剧", 15040.05],
+      ["掌玩", 16890.70],
       ["点众", 13231.00],
       ["容量", 6797.63],
       ["六壹零", 5377.75],
       ["呔咯", 5152.94],
-      ["千玺漫剧", 5135.19],
-      ["有你漫剧", 4609.81],
-      ["盟柚漫剧", 3095.27]
+      ["千玺", 5135.19],
+      ["有你", 5072.43],
+      ["盟柚", 3095.27]
     ]
   },
   week_copyright_top10: {
     "20260521": [
-      ["可乐漫剧", 335928.22],
-      ["繁花剧场", 69904.26],
-      ["河马剧场", 69904.26],
-      ["花生剧场", 41247.78],
-      ["闻风剧场", 32189.79],
-      ["优享漫剧", 32189.79],
-      ["超好看剧场", 22806.63],
-      ["沙滩剧场", 22806.63],
-      ["桃子看吧", 22806.63],
-      ["浅尝小故事", 19354.01]
+      ["九州", 336066.80],
+      ["点众", 139808.53],
+      ["容量", 68419.90],
+      ["盟柚", 64379.59],
+      ["花生", 41362.16],
+      ["呔咯", 37788.36],
+      ["冬日雪", 30548.57],
+      ["掌玩", 16758.24],
+      ["火龙", 15413.49],
+      ["有推", 10919.35]
     ],
     "20260514": [
-      ["可乐漫剧", 314834.86],
-      ["繁花剧场", 124742.11],
-      ["河马剧场", 124742.11],
-      ["花生剧场", 28094.15],
-      ["火龙漫剧", 23194.21],
-      ["屿冬漫剧", 21017.87],
-      ["冬星漫剧", 21017.87],
-      ["超好看剧场", 16526.18],
-      ["沙滩剧场", 16526.18],
-      ["桃子看吧", 16526.18]
+      ["九州", 315196.49],
+      ["点众", 249484.22],
+      ["容量", 49578.55],
+      ["冬日雪", 42035.74],
+      ["呔咯", 37258.75],
+      ["花生", 28485.98],
+      ["火龙", 23194.21],
+      ["盟柚", 19676.59],
+      ["掌玩", 15618.23],
+      ["有推", 10755.89]
     ],
     "20260507": [
-      ["可乐漫剧", 338980.67],
-      ["繁花剧场", 101583.73],
-      ["河马剧场", 101583.73],
-      ["火龙漫剧", 22496.91],
-      ["超好看剧场", 19229.43],
-      ["沙滩剧场", 19229.43],
-      ["桃子看吧", 19229.43],
-      ["屿冬漫剧", 15281.93],
-      ["冬星漫剧", 15281.93],
-      ["喵漫小剧场", 12576.04]
+      ["九州", 342094.51],
+      ["点众", 203167.46],
+      ["容量", 57688.30],
+      ["呔咯", 38276.80],
+      ["冬日雪", 30563.87],
+      ["火龙", 22496.91],
+      ["掌玩", 19865.24],
+      ["有推", 12576.04],
+      ["迪迅漫剧", 6558.91],
+      ["灵阅漫剧", 5323.93]
     ],
     "20260430": [
-      ["可乐漫剧", 407304.70],
-      ["火龙漫剧", 40102.74],
-      ["屿冬漫剧", 40057.87],
-      ["冬星漫剧", 40057.87],
-      ["繁花剧场", 39341.20],
-      ["河马剧场", 39341.20],
-      ["五灵漫剧", 23122.21],
-      ["黑岩漫剧", 21882.02],
-      ["聚梦漫剧", 21502.79],
-      ["超好看剧场", 21424.18]
+      ["九州", 412311.30],
+      ["冬日雪", 80115.74],
+      ["点众", 78682.40],
+      ["容量", 64272.54],
+      ["呔咯", 48454.67],
+      ["火龙", 40102.74],
+      ["灵阅漫剧", 15856.90],
+      ["掌玩", 13711.18],
+      ["巨有趣漫剧", 9356.10],
+      ["迪迅漫剧", 6569.57]
     ],
     "20260423": [
-      ["可乐漫剧", 420456.35],
-      ["屿冬漫剧", 52712.01],
-      ["冬星漫剧", 52712.01],
-      ["火龙漫剧", 24036.68],
-      ["繁花剧场", 19709.34],
-      ["河马剧场", 19709.34],
-      ["超好看剧场", 12252.07],
-      ["沙滩剧场", 12252.07],
-      ["桃子看吧", 12252.07],
-      ["五灵漫剧", 11771.85]
+      ["九州", 424519.39],
+      ["冬日雪", 105424.02],
+      ["点众", 39424.73],
+      ["容量", 36756.20],
+      ["呔咯", 34235.03],
+      ["火龙", 24036.68],
+      ["盟柚", 11116.37],
+      ["掌玩", 9893.49],
+      ["巨有趣漫剧", 6394.01],
+      ["迪迅漫剧", 2955.44]
     ],
     "20260416": [
-      ["可乐漫剧", 325553.16],
-      ["火龙漫剧", 21536.02],
-      ["屿冬漫剧", 16156.31],
-      ["冬星漫剧", 16156.31],
-      ["超好看剧场", 15664.56],
-      ["沙滩剧场", 15664.56],
-      ["桃子看吧", 15664.56],
-      ["闻风剧场", 12309.53],
-      ["优享漫剧", 12309.53],
-      ["柑橘短剧", 11684.41]
+      ["九州", 333718.10],
+      ["容量", 46993.67],
+      ["呔咯", 36576.97],
+      ["冬日雪", 32312.61],
+      ["盟柚", 24619.06],
+      ["火龙", 21536.02],
+      ["掌玩", 18559.51],
+      ["迪迅漫剧", 5892.85],
+      ["巨有趣漫剧", 4049.36],
+      ["山海", 2602.87]
     ],
     "20260409": [
-      ["可乐漫剧", 465934.38],
-      ["星空剧院", 37233.80],
-      ["火龙漫剧", 27318.89],
-      ["闻风剧场", 19530.08],
-      ["优享漫剧", 19530.08],
-      ["短剧嗨看", 15158.53],
-      ["星海书城", 15158.53],
-      ["乐播剧场", 15158.53],
-      ["麦子剧场", 15158.53],
-      ["五灵漫剧", 13228.11]
+      ["九州", 470845.01],
+      ["点众", 81210.90],
+      ["盟柚", 39060.17],
+      ["容量", 38347.57],
+      ["火龙", 27318.89],
+      ["呔咯", 26477.62],
+      ["掌玩", 15569.62],
+      ["迪迅漫剧", 12000.11],
+      ["山海", 5872.41],
+      ["巨有趣漫剧", 4727.51]
     ],
     "20260402": [
-      ["可乐漫剧", 312662.42],
-      ["火龙漫剧", 185817.48],
-      ["星空剧院", 79390.91],
-      ["小说搭子", 26517.09],
-      ["思思短剧", 20073.19],
-      ["晚风短剧", 20073.19],
-      ["风吟剧场", 20073.19],
-      ["短剧嗨看", 17760.06],
-      ["星海书城", 17760.06],
-      ["乐播剧场", 17760.06]
+      ["九州", 317046.04],
+      ["火龙", 185817.48],
+      ["点众", 169328.94],
+      ["容量", 49456.35],
+      ["呔咯", 34781.99],
+      ["掌玩", 27308.58],
+      ["巨有趣漫剧", 9634.99],
+      ["迪迅漫剧", 9215.98],
+      ["山海", 5302.19],
+      ["众创漫剧", 1686.80]
     ],
     "20260326": [
-      ["火龙漫剧", 90309.57],
-      ["可乐漫剧", 32392.30],
-      ["星空剧院", 6671.16],
-      ["小说搭子", 2721.02],
-      ["超好看剧场", 2265.88],
-      ["沙滩剧场", 2265.88],
-      ["桃子看吧", 2265.88],
-      ["酱油动漫剧场", 1514.16],
-      ["星盏剧场", 1514.16],
-      ["爆单漫剧", 1204.85]
+      ["火龙", 90309.57],
+      ["九州", 32917.97],
+      ["点众", 13231.00],
+      ["容量", 6797.63],
+      ["呔咯", 5152.94],
+      ["掌玩", 1850.65],
+      ["迪迅漫剧", 983.59],
+      ["巨有趣漫剧", 669.71],
+      ["山海", 611.04],
+      ["花生", 276.80]
+    ]
+  },
+  week_distribution_top10: {
+    "20260521": [
+      ["掌玩", 93945.45],
+      ["千玺", 64154.05],
+      ["六壹零", 34264.71],
+      ["盟柚", 23501.84],
+      ["有你", 21826.74],
+      ["爱尚", 21544.75],
+      ["执享", 20415.53],
+      ["汇典", 15941.80],
+      ["飞越", 3825.19],
+      ["鹏润漫剧", 1798.24]
+    ],
+    "20260514": [
+      ["掌玩", 94202.51],
+      ["千玺", 44193.21],
+      ["六壹零", 39528.94],
+      ["汇典", 17239.01],
+      ["执享", 15423.47],
+      ["盟柚", 14199.80],
+      ["鹏润漫剧", 7773.69],
+      ["有你", 5363.16],
+      ["爱尚", 1348.90],
+      ["山联", 139.39]
+    ],
+    "20260507": [
+      ["掌玩", 95879.04],
+      ["六壹零", 45129.73],
+      ["千玺", 39500.90],
+      ["盟柚", 12795.68],
+      ["汇典", 12476.67],
+      ["执享", 12233.43],
+      ["鹏润漫剧", 8789.10],
+      ["飞越", 5347.78],
+      ["有你", 4895.22],
+      ["爱尚", 2002.19]
+    ],
+    "20260430": [
+      ["掌玩", 131161.68],
+      ["千玺", 92600.50],
+      ["六壹零", 51392.98],
+      ["执享", 27436.94],
+      ["汇典", 19127.48],
+      ["盟柚", 14888.49],
+      ["有你", 13904.87],
+      ["鹏润漫剧", 4749.27],
+      ["飞越", 4155.15],
+      ["爱尚", 2890.97]
+    ],
+    "20260423": [
+      ["掌玩", 72119.54],
+      ["千玺", 60993.52],
+      ["六壹零", 36143.59],
+      ["汇典", 19209.76],
+      ["执享", 18209.63],
+      ["有你", 12634.23],
+      ["有推", 9603.16],
+      ["盟柚", 6519.26],
+      ["鹏润漫剧", 3845.62],
+      ["爱尚", 3268.54]
+    ],
+    "20260416": [
+      ["掌玩", 85575.68],
+      ["六壹零", 56453.48],
+      ["千玺", 47365.19],
+      ["有你", 28166.14],
+      ["汇典", 18819.10],
+      ["执享", 18232.35],
+      ["鹏润漫剧", 6468.15],
+      ["盟柚", 4388.77],
+      ["有推", 2048.41],
+      ["瑞达尔", 833.89]
+    ],
+    "20260409": [
+      ["掌玩", 110055.79],
+      ["六壹零", 90404.01],
+      ["千玺", 54661.48],
+      ["执享", 20423.68],
+      ["汇典", 19713.59],
+      ["有你", 17290.20],
+      ["盟柚", 11249.10],
+      ["瑞达尔", 8395.82],
+      ["有推", 6608.87],
+      ["鹏润漫剧", 4268.72]
+    ],
+    "20260402": [
+      ["掌玩", 163068.64],
+      ["六壹零", 111822.82],
+      ["千玺", 48120.88],
+      ["有你", 31505.75],
+      ["汇典", 31264.43],
+      ["瑞达尔", 28215.27],
+      ["盟柚", 25525.91],
+      ["执享", 21391.72],
+      ["有推", 7551.74],
+      ["鹏润漫剧", 3835.93]
+    ],
+    "20260326": [
+      ["掌玩", 15040.05],
+      ["六壹零", 5377.75],
+      ["千玺", 5135.19],
+      ["有你", 5072.43],
+      ["盟柚", 3095.27],
+      ["汇典", 2311.74],
+      ["执享", 2110.05],
+      ["瑞达尔", 1287.32],
+      ["有推", 258.82],
+      ["鹏润漫剧", 166.10]
     ]
   },
   weeks: [
@@ -896,10 +1033,52 @@ const D = {
     "20260514": "05/14",
     "20260521": "05/21"
   },
-  identity_pie: [
-    ["版权自投", 0],
-    ["分销", 0],
-    ["未分类", 8574447.55]
+  identity_stacked: [
+    {
+      week: "03/26",
+      copyright: 153421.84,
+      distribution: 39880.97
+    },
+    {
+      week: "04/02",
+      copyright: 816398.90,
+      distribution: 475167.93
+    },
+    {
+      week: "04/09",
+      copyright: 727999.89,
+      distribution: 345040.63
+    },
+    {
+      week: "04/16",
+      copyright: 530323.51,
+      distribution: 269949.46
+    },
+    {
+      week: "04/23",
+      copyright: 700699.48,
+      distribution: 242693.61
+    },
+    {
+      week: "04/30",
+      copyright: 779869.89,
+      distribution: 363967.22
+    },
+    {
+      week: "05/07",
+      copyright: 747556.15,
+      distribution: 239608.24
+    },
+    {
+      week: "05/14",
+      copyright: 817482.96,
+      distribution: 239467.93
+    },
+    {
+      week: "05/21",
+      copyright: 782929.61,
+      distribution: 301339.50
+    }
   ],
   kehuo: {
     kehuo_threshold: 100000,
@@ -918,12 +1097,12 @@ const D = {
           },
           {
             name: "上海音鹅文化传媒有限公司",
-            group: "盟柚漫剧",
+            group: "盟柚",
             consumption: 159030.23
           },
           {
             name: "长沙市清樟文化传播有限公司雨花第三分公司",
-            group: "千玺漫剧",
+            group: "千玺",
             consumption: 141996.57
           },
           {
@@ -933,17 +1112,17 @@ const D = {
           },
           {
             name: "长沙市清樟文化传播有限公司雨花第六分公司",
-            group: "千玺漫剧",
+            group: "千玺",
             consumption: 115994.52
           },
           {
             name: "南昌新触点广告有限公司",
-            group: "汇典漫剧",
+            group: "汇典",
             consumption: 103986.53
           },
           {
             name: "上海盟柚网络科技有限公司",
-            group: "盟柚漫剧",
+            group: "盟柚",
             consumption: 103909.83
           }
         ]
@@ -977,7 +1156,7 @@ const D = {
           },
           {
             name: "杭州思硕文化创意有限公司第四十九分公司",
-            group: "掌玩漫剧",
+            group: "掌玩",
             consumption: 861048.38
           },
           {
@@ -997,7 +1176,7 @@ const D = {
           },
           {
             name: "湖北名萃网络科技有限公司",
-            group: "冬日雪漫剧",
+            group: "冬日雪",
             consumption: 321000.55
           },
           {
@@ -1026,7 +1205,7 @@ const D = {
     near_kehuo: [
       {
         client: "杭州南熙文化创意有限公司第二分公司",
-        group: "掌玩短剧",
+        group: "掌玩",
         sales: "王星予",
         consumption: 86389.32,
         gap: 13610.68,
@@ -1048,7 +1227,7 @@ const D = {
       },
       {
         client: "长沙市清樟文化传播有限公司雨花第五分公司",
-        group: "千玺漫剧",
+        group: "千玺",
         sales: "乌丽娅斯",
         consumption: 73754.18,
         gap: 26245.82,
@@ -1070,7 +1249,7 @@ const D = {
       },
       {
         client: "长沙市清樟文化传播有限公司雨花第四分公司",
-        group: "千玺漫剧",
+        group: "千玺",
         sales: "乌丽娅斯",
         consumption: 68039.37,
         gap: 31960.63,
@@ -1099,6 +1278,61 @@ const D = {
         progress: 55.20,
         daily_avg: 967.69,
         days_needed: 46,
+        predicted: "有风险"
+      },
+      {
+        client: "深圳很有乾文化有限公司",
+        group: "巨有趣漫剧",
+        sales: "乌丽娅斯",
+        consumption: 49303.71,
+        gap: 50696.29,
+        progress: 49.30,
+        daily_avg: 864.98,
+        days_needed: 59,
+        predicted: "有风险"
+      },
+      {
+        client: "北京金海品读科技有限公司广州第九分公司",
+        group: "点众",
+        sales: "乌丽娅斯",
+        consumption: 43619.56,
+        gap: 56380.44,
+        progress: 43.60,
+        daily_avg: 765.26,
+        days_needed: 74,
+        predicted: "有风险"
+      },
+      {
+        client: "福楼（深圳）信息技术有限公司",
+        group: "鹏润漫剧",
+        sales: "乌丽娅斯",
+        consumption: 41694.82,
+        gap: 58305.18,
+        progress: 41.70,
+        daily_avg: 731.49,
+        days_needed: 80,
+        predicted: "有风险"
+      },
+      {
+        client: "深圳朝逸文化传媒有限公司",
+        group: "有推",
+        sales: "乌丽娅斯",
+        consumption: 36920.53,
+        gap: 63079.47,
+        progress: 36.90,
+        daily_avg: 647.73,
+        days_needed: 97,
+        predicted: "有风险"
+      },
+      {
+        client: "嘉兴寻梦影视科技有限公司",
+        group: "九州",
+        sales: "王星予",
+        consumption: 33700.67,
+        gap: 66299.33,
+        progress: 33.70,
+        daily_avg: 591.24,
+        days_needed: 112,
         predicted: "有风险"
       }
     ]
@@ -1298,17 +1532,29 @@ safeChart('dailyChart', function(cvs){
   });
 });
 
-// ====== IDENTITY PIE (版权/分销) ======
-const identityColors = ['#22c55e', '#f59e0b', '#6366f1', '#22d3ee', '#60a5fa', '#a78bfa'];
+// ====== IDENTITY STACKED CHART (版权/分销周趋势) ======
 safeChart('identityChart', function(cvs){
+  const weeks = D.identity_stacked.map(x=>x.week);
+  const cprData = D.identity_stacked.map(x=>x.copyright);
+  const distData = D.identity_stacked.map(x=>x.distribution);
   new Chart(cvs,{
-    type:'doughnut',
-    data:{labels:D.identity_pie.map(x=>x[0]),datasets:[{data:D.identity_pie.map(x=>x[1]),backgroundColor:identityColors,borderWidth:0,hoverOffset:6}]},
+    type:'bar',
+    data:{
+      labels: weeks,
+      datasets: [
+        {label:'版权自投', data: cprData, backgroundColor:'rgba(34,197,94,0.7)', borderColor:'#22c55e', borderWidth:1, borderRadius:4, borderSkipped:false},
+        {label:'分销', data: distData, backgroundColor:'rgba(245,158,11,0.7)', borderColor:'#f59e0b', borderWidth:1, borderRadius:4, borderSkipped:false}
+      ]
+    },
     options:{
-      responsive:true,maintainAspectRatio:false,cutout:'50%',
+      responsive:true, maintainAspectRatio:false,
       plugins:{
-        legend:{position:'bottom',labels:{color:'#8b8fa8',font:{size:11},padding:8,usePointStyle:true,boxWidth:8}},
-        tooltip:{backgroundColor:'#1a1d28',titleColor:'#e4e6ef',bodyColor:'#e4e6ef',borderColor:'#2a2e3f',borderWidth:1,callbacks:{label:ctx=>ctx.label+': ¥'+(ctx.parsed/10000).toFixed(1)+'万 ('+(ctx.parsed/D.identity_pie.reduce((a,b)=>a+b[1],0)*100).toFixed(1)+'%)'}}
+        legend:{position:'bottom', labels:{color:'#8b8fa8', font:{size:11}, padding:8, usePointStyle:true, boxWidth:8}},
+        tooltip:{backgroundColor:'#1a1d28', titleColor:'#e4e6ef', bodyColor:'#e4e6ef', borderColor:'#2a2e3f', borderWidth:1, callbacks:{label:ctx=>ctx.dataset.label+': ¥'+(ctx.parsed.y/10000).toFixed(1)+'万'}}
+      },
+      scales:{
+        x:{stacked:true, ticks:{color:'#5c6080', font:{size:10}}, grid:{display:false}},
+        y:{stacked:true, ticks:{color:'#5c6080', font:{size:10}, callback:v=>(v/10000).toFixed(0)+'万'}, grid:{color:'rgba(42,46,63,0.3)'}}
       }
     }
   });
@@ -1337,10 +1583,12 @@ function renderRankTable(tbodyId, data, totalOverride) {
 // ====== INITIAL RENDER: Q2 rankings (before charts, so they always show) ======
 renderRankTable('groupQ2Body', D.q2_group_top10);
 renderRankTable('crQ2Body', D.q2_copyright_top10);
+renderRankTable('distQ2Body', D.q2_distribution_top10);
 
 // ====== TAB SWITCHING: Group ======
 let currentGroupTab = 'q2';
 let currentCopyrightTab = 'q2';
+let currentDistTab = 'q2';
 
 function switchGroupTab(tab) {
   currentGroupTab = tab;
@@ -1410,13 +1658,49 @@ function renderCopyrightWeek() {
   document.getElementById('crWeekNote').textContent = '周期: '+ (D.week_labels[wk]||wk) + ' · 总消耗: ¥' + Math.round(total).toLocaleString();
 }
 
-// ====== INIT: Set default tab label to latest week ======
+// ====== TAB SWITCHING: Distribution ======
+function switchDistTab(tab) {
+  currentDistTab = tab;
+  document.getElementById('distTabQ2').className = 'tab-btn' + (tab==='q2'?' active':'');
+  document.getElementById('distTabWeek').className = 'tab-btn' + (tab==='week'?' active':'');
+  document.getElementById('distQ2Content').style.display = tab==='q2'?'block':'none';
+  document.getElementById('distWeekContent').style.display = tab==='week'?'block':'none';
+  document.getElementById('distWeekPicker').style.display = tab==='week'?'block':'none';
+  if(tab==='week') {
+    initDistWeekPicker();
+    renderDistWeek();
+  }
+}
+
+function initDistWeekPicker() {
+  const sel = document.getElementById('distWeekSelect');
+  if(sel.options.length > 0) return;
+  D.weeks.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w;
+    opt.textContent = D.week_labels[w] || w;
+    if(w === D.latest_week) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function renderDistWeek() {
+  const sel = document.getElementById('distWeekSelect');
+  const wk = sel.value || D.latest_week;
+  const data = D.week_distribution_top10[wk] || [];
+  const total = data.reduce((a,b)=>a+b[1],0);
+  renderRankTable('distWeekBody', data, total);
+  document.getElementById('distWeekNote').textContent = '周期: '+ (D.week_labels[wk]||wk) + ' · 总消耗: ¥' + Math.round(total).toLocaleString();
+}
+
+// ====== INIT: Update week tab labels ======
 document.getElementById('groupTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
 document.getElementById('crTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
+document.getElementById('distTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
 
 // ====== 客活监控渲染 ======
 const KH = D.kehuo;
-let currentKehuoTab = 'hit';
+let currentKehuoTab = 'near';
 
 // Sales summary cards
 const sumGrid = document.getElementById('khSalesSummary');
