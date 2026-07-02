@@ -282,19 +282,30 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="panel">
     <div class="panel-title">🏆 销售定义集团消耗排名</div>
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchGroupTab('q2')" id="groupTabQ2">Q3累计</button>
-      <button class="tab-btn" onclick="switchGroupTab('week')" id="groupTabWeek">👈 上周（完整周）</button>
+      <button class="tab-btn active" onclick="switchGroupTab('q3')" id="groupTabQ3">Q3累计</button>
+      <button class="tab-btn" onclick="switchGroupTab('week')" id="groupTabWeek">👈 上周</button>
+      <button class="tab-btn" onclick="switchGroupTab('quarter')" id="groupTabQuarter">📅 季度</button>
     </div>
     <div class="week-selector" id="groupWeekPicker" style="display:none">
-      <select id="groupWeekSelect" onchange="renderGroupWeek()">
-      </select>
+      <select id="groupWeekSelect" onchange="renderGroupWeek()"></select>
     </div>
     <div id="groupQ3Content">
       <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">周环比</th></tr></thead>
+        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
         <tbody id="groupQ3Body"></tbody>
       </table>
-      <div class="week-note" style="margin-top:6px">消耗口径 = 总扣费(元) 直接求和 · 数据源：客户信息表 · 销售关系匹配sheet · 按销售定义集团名称(M列)聚合</div>
+      <div class="week-note" style="margin-top:6px">消耗口径 = 总扣费(元) · QoQ对比Q2同期 · 按销售定义集团名称(M列)聚合</div>
+    </div>
+    <div id="groupQuarterContent" style="display:none">
+      <div class="tab-bar" style="padding:4px 0 8px">
+        <button class="tab-btn active" onclick="switchGroupQuarter('Q3')">Q3</button>
+        <button class="tab-btn" onclick="switchGroupQuarter('Q2')">Q2</button>
+        <button class="tab-btn" onclick="switchGroupQuarter('Q1')">Q1</button>
+      </div>
+      <table class="rank-table">
+        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">季度消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">&nbsp;</th></tr></thead>
+        <tbody id="groupQuarterBody"></tbody>
+      </table>
     </div>
     <div id="groupWeekContent" style="display:none">
       <table class="rank-table">
@@ -307,8 +318,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="panel">
     <div class="panel-title">📋 版权消耗排名</div>
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchCopyrightTab('q2')" id="crTabQ2">Q3累计</button>
-      <button class="tab-btn" onclick="switchCopyrightTab('week')" id="crTabWeek">👈 上周（完整周）</button>
+      <button class="tab-btn active" onclick="switchCopyrightTab('q3')" id="crTabQ3">Q3累计</button>
+      <button class="tab-btn" onclick="switchCopyrightTab('week')" id="crTabWeek">👈 上周</button>
+      <button class="tab-btn" onclick="switchCopyrightTab('quarter')" id="crTabQuarter">📅 季度</button>
     </div>
     <div class="week-selector" id="crWeekPicker" style="display:none">
       <select id="crWeekSelect" onchange="renderCopyrightWeek()">
@@ -316,10 +328,21 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     </div>
     <div id="crQ3Content">
       <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">周环比</th></tr></thead>
+        <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
         <tbody id="crQ3Body"></tbody>
       </table>
-      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"版权自投"+R列品牌对应版权名称→聚合到销售定义集团名称 · 总扣费直接求和</div>
+      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"版权自投"→M列集团聚合 · QoQ对比Q2同期 · 总扣费直接求和</div>
+    </div>
+    <div id="crQuarterContent" style="display:none">
+      <div class="tab-bar" style="padding:4px 0 8px">
+        <button class="tab-btn active" onclick="switchCopyrightQuarter('Q3')">Q3</button>
+        <button class="tab-btn" onclick="switchCopyrightQuarter('Q2')">Q2</button>
+        <button class="tab-btn" onclick="switchCopyrightQuarter('Q1')">Q1</button>
+      </div>
+      <table class="rank-table">
+        <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">季度消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">&nbsp;</th></tr></thead>
+        <tbody id="crQuarterBody"></tbody>
+      </table>
     </div>
     <div id="crWeekContent" style="display:none">
       <table class="rank-table">
@@ -333,17 +356,31 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="panel">
     <div class="panel-title">📋 分销消耗排名</div>
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchDistTab('q2')" id="distTabQ2">Q3累计</button>
-      <button class="tab-btn" onclick="switchDistTab('week')" id="distTabWeek">👈 上周（完整周）</button>
+      <button class="tab-btn active" onclick="switchDistTab('q3')" id="distTabQ3">Q3累计</button>
+      <button class="tab-btn" onclick="switchDistTab('week')" id="distTabWeek">👈 上周</button>
+      <button class="tab-btn" onclick="switchDistTab('quarter')" id="distTabQuarter">📅 季度</button>
     </div>
     <div class="week-selector" id="distWeekPicker" style="display:none">
       <select id="distWeekSelect" onchange="renderDistWeek()"></select>
     </div>
     <div id="distQ3Content">
       <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">周环比</th></tr></thead>
+        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
         <tbody id="distQ3Body"></tbody>
       </table>
+      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"分销"→M列集团聚合 · QoQ对比Q2同期 · 总扣费直接求和</div>
+    </div>
+    <div id="distQuarterContent" style="display:none">
+      <div class="tab-bar" style="padding:4px 0 8px">
+        <button class="tab-btn active" onclick="switchDistQuarter('Q3')">Q3</button>
+        <button class="tab-btn" onclick="switchDistQuarter('Q2')">Q2</button>
+        <button class="tab-btn" onclick="switchDistQuarter('Q1')">Q1</button>
+      </div>
+      <table class="rank-table">
+        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">季度消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">&nbsp;</th></tr></thead>
+        <tbody id="distQuarterBody"></tbody>
+      </table>
+    </div>
       <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"分销"→聚合到销售定义集团名称 · 总扣费直接求和</div>
     </div>
     <div id="distWeekContent" style="display:none">
@@ -633,39 +670,55 @@ const D = {
     ["20260701", 173864.98]
   ],
   q3_group_top10: [
-    ["九州", 37043.85, Infinity],
-    ["千玺", 23439.45, Infinity],
-    ["掌玩", 18206.86, Infinity],
-    ["盟柚", 12778.09, Infinity],
-    ["火龙", 12000.82, Infinity],
-    ["武汉栅霆网络科技有限公司", 9445.47, Infinity],
-    ["容量", 8967.33, Infinity],
-    ["呔咯", 5356.54, Infinity],
-    ["六壹零", 4997.48, Infinity],
-    ["执享", 4643.96, Infinity]
+    ["九州", 37043.85, 12.50],
+    ["千玺", 23439.45, 356.40],
+    ["掌玩", 18206.86, 7.80],
+    ["盟柚", 12778.09, 312.80],
+    ["火龙", 12000.82, -86.70],
+    [
+      "武汉栅霆网络科技有限公司",
+      9445.47,
+      null
+    ],
+    ["容量", 8967.33, 31.90],
+    ["呔咯", 5356.54, 4.0],
+    ["六壹零", 4997.48, -7.10],
+    ["执享", 4643.96, 120.10]
   ],
   q3_copyright_top10: [
-    ["九州", 37043.85, Infinity],
-    ["火龙", 12000.82, Infinity],
-    ["盟柚", 11670.48, Infinity],
-    ["容量", 8967.33, Infinity],
-    ["呔咯", 5356.54, Infinity],
-    ["巨有趣漫剧", 1837.96, Infinity],
-    ["山海", 1733.96, Infinity],
-    ["浙邮", 530.79, Infinity],
-    ["有推", 437.04, Infinity],
-    ["迪迅漫剧", 375.11, Infinity]
+    ["九州", 37043.85, 12.50],
+    ["火龙", 12000.82, -86.70],
+    [
+      "盟柚",
+      11670.48,
+      null
+    ],
+    ["容量", 8967.33, 31.90],
+    ["呔咯", 5356.54, 4.0],
+    ["巨有趣漫剧", 1837.96, 174.40],
+    ["山海", 1733.96, 183.80],
+    [
+      "浙邮",
+      530.79,
+      null
+    ],
+    [
+      "有推",
+      437.04,
+      null
+    ],
+    ["迪迅漫剧", 375.11, -61.90]
   ],
   q3_distribution_top10: [
-    ["千玺", 23439.45, Infinity],
-    ["掌玩", 17945.59, Infinity],
-    ["六壹零", 4997.48, Infinity],
-    ["执享", 4643.96, Infinity],
-    ["汇典", 2126.30, Infinity],
-    ["有你", 1281.24, Infinity],
-    ["盟柚", 1107.61, Infinity],
-    ["有推", 2.60, Infinity],
-    ["山联", 1.44, Infinity]
+    ["千玺", 23439.45, 356.40],
+    ["掌玩", 17945.59, 19.30],
+    ["六壹零", 4997.48, -7.10],
+    ["执享", 4643.96, 120.10],
+    ["汇典", 2126.30, -8.0],
+    ["有你", 1281.24, -74.70],
+    ["盟柚", 1107.61, -64.20],
+    ["有推", 2.60, -99.0],
+    ["山联", 1.44, -91.60]
   ],
   week_group_top10: {
     "20260625": [
@@ -745,6 +798,119 @@ const D = {
       distribution: 55545.67
     }
   ],
+  quarter_group: {
+    Q1: [
+      ["掌玩", 4098496.31],
+      ["点众", 3370698.70],
+      ["九州", 2100465.10],
+      ["千玺", 1733874.92],
+      ["六壹零", 1261343.24],
+      ["迪迅漫剧", 1237790.75],
+      ["有你", 1119083.27],
+      ["容量", 1071364.09],
+      ["呔咯", 849348.22],
+      ["执享", 341766.65]
+    ],
+    Q2: [
+      ["九州", 4790503.94],
+      ["掌玩", 1709870.03],
+      ["点众", 1250593.39],
+      ["盟柚", 794104.86],
+      ["千玺", 784041.64],
+      ["容量", 755780.91],
+      ["执享", 733559.79],
+      ["六壹零", 644827.31],
+      ["火龙", 634617.19],
+      ["冬日雪", 554608.86]
+    ],
+    Q3: [
+      ["九州", 37043.85],
+      ["千玺", 23439.45],
+      ["掌玩", 18206.86],
+      ["盟柚", 12778.09],
+      ["火龙", 12000.82],
+      ["武汉栅霆网络科技有限公司", 9445.47],
+      ["容量", 8967.33],
+      ["呔咯", 5356.54],
+      ["六壹零", 4997.48],
+      ["执享", 4643.96]
+    ]
+  },
+  quarter_copyright: {
+    Q1: [
+      ["点众", 3370698.70],
+      ["九州", 2100465.10],
+      ["迪迅漫剧", 1237790.75],
+      ["容量", 1070461.12],
+      ["呔咯", 849348.22],
+      ["巨有趣漫剧", 265028.48],
+      ["山海", 194973.83],
+      ["火龙", 148248.32],
+      ["天桥", 90808.40],
+      ["掌玩", 77290.04]
+    ],
+    Q2: [
+      ["九州", 4790503.94],
+      ["点众", 1250593.39],
+      ["容量", 755780.91],
+      ["火龙", 634617.19],
+      ["盟柚", 589093.86],
+      ["冬日雪", 554608.86],
+      ["呔咯", 493754.76],
+      ["有推", 245156.54],
+      ["掌玩", 227779.30],
+      ["山海", 186843.14]
+    ],
+    Q3: [
+      ["九州", 37043.85],
+      ["火龙", 12000.82],
+      ["盟柚", 11670.48],
+      ["容量", 8967.33],
+      ["呔咯", 5356.54],
+      ["巨有趣漫剧", 1837.96],
+      ["山海", 1733.96],
+      ["浙邮", 530.79],
+      ["有推", 437.04],
+      ["迪迅漫剧", 375.11]
+    ]
+  },
+  quarter_distribution: {
+    Q1: [
+      ["掌玩", 4021206.27],
+      ["千玺", 1733874.92],
+      ["六壹零", 1261343.24],
+      ["有你", 1119083.27],
+      ["执享", 341766.65],
+      ["汇典", 340661.33],
+      ["盟柚", 310216.06],
+      ["华阳", 141917.25],
+      ["多点美好", 26224.29],
+      ["瑞达尔", 21522.92]
+    ],
+    Q2: [
+      ["掌玩", 1482090.73],
+      ["千玺", 784041.64],
+      ["执享", 733559.79],
+      ["六壹零", 644827.31],
+      ["汇典", 234147.85],
+      ["有你", 214549.58],
+      ["盟柚", 205011.0],
+      ["爱尚", 97541.54],
+      ["鹏润漫剧", 44166.31],
+      ["瑞达尔", 38763.60]
+    ],
+    Q3: [
+      ["千玺", 23439.45],
+      ["掌玩", 17945.59],
+      ["六壹零", 4997.48],
+      ["执享", 4643.96],
+      ["汇典", 2126.30],
+      ["有你", 1281.24],
+      ["盟柚", 1107.61],
+      ["有推", 2.60],
+      ["山联", 1.44]
+    ]
+  },
   kehuo: {
     kehuo_threshold: 100000,
     total_kehuo: 0,
@@ -1005,28 +1171,39 @@ function renderRankTable(tbodyId, data, totalOverride) {
   return total;
 }
 
-// ====== INITIAL RENDER: Q2 rankings (before charts, so they always show) ======
-renderRankTable('groupQ3Body', D.q2_group_top10);
-renderRankTable('crQ3Body', D.q2_copyright_top10);
-renderRankTable('distQ3Body', D.q2_distribution_top10);
+// ====== INITIAL RENDER ======
+renderRankTable('groupQ3Body', D.q3_group_top10);
+renderRankTable('crQ3Body', D.q3_copyright_top10);
+renderRankTable('distQ3Body', D.q3_distribution_top10);
 
 // ====== TAB SWITCHING: Group ======
-let currentGroupTab = 'q2';
-let currentCopyrightTab = 'q2';
-let currentDistTab = 'q2';
+let currentGroupTab = 'q3';
+let currentCopyrightTab = 'q3';
+let currentDistTab = 'q3';
+let currentGroupQuarter = 'Q3';
+let currentCopyrightQuarter = 'Q3';
+let currentDistQuarter = 'Q3';
 
 function switchGroupTab(tab) {
   currentGroupTab = tab;
-  document.getElementById('groupTabQ2').className = 'tab-btn' + (tab==='q2'?' active':'');
+  document.getElementById('groupTabQ3').className = 'tab-btn' + (tab==='q3'?' active':'');
   document.getElementById('groupTabWeek').className = 'tab-btn' + (tab==='week'?' active':'');
-  document.getElementById('groupQ3Content').style.display = tab==='q2'?'block':'none';
+  document.getElementById('groupTabQuarter').className = 'tab-btn' + (tab==='quarter'?' active':'');
+  document.getElementById('groupQ3Content').style.display = tab==='q3'?'block':'none';
   document.getElementById('groupWeekContent').style.display = tab==='week'?'block':'none';
+  document.getElementById('groupQuarterContent').style.display = tab==='quarter'?'block':'none';
   document.getElementById('groupWeekPicker').style.display = tab==='week'?'block':'none';
-  if(tab==='week') {
-    initGroupWeekPicker();
-    renderGroupWeek();
-  }
+  if(tab==='week') { initGroupWeekPicker(); renderGroupWeek(); }
+  if(tab==='quarter') renderGroupQuarter();
 }
+
+function switchGroupQuarter(q) {
+  currentGroupQuarter = q;
+  document.querySelectorAll('#groupQuarterContent .tab-btn').forEach(b => b.className = 'tab-btn' + (b.textContent===q?' active':''));
+  renderRankTable('groupQuarterBody', D.quarter_group[q]);
+}
+
+function renderGroupQuarter() { switchGroupQuarter('Q3'); }
 
 function initGroupWeekPicker() {
   const sel = document.getElementById('groupWeekSelect');
@@ -1051,16 +1228,24 @@ function renderGroupWeek() {
 
 function switchCopyrightTab(tab) {
   currentCopyrightTab = tab;
-  document.getElementById('crTabQ2').className = 'tab-btn' + (tab==='q2'?' active':'');
+  document.getElementById('crTabQ3').className = 'tab-btn' + (tab==='q3'?' active':'');
   document.getElementById('crTabWeek').className = 'tab-btn' + (tab==='week'?' active':'');
-  document.getElementById('crQ3Content').style.display = tab==='q2'?'block':'none';
+  document.getElementById('crTabQuarter').className = 'tab-btn' + (tab==='quarter'?' active':'');
+  document.getElementById('crQ3Content').style.display = tab==='q3'?'block':'none';
   document.getElementById('crWeekContent').style.display = tab==='week'?'block':'none';
+  document.getElementById('crQuarterContent').style.display = tab==='quarter'?'block':'none';
   document.getElementById('crWeekPicker').style.display = tab==='week'?'block':'none';
-  if(tab==='week') {
-    initCopyrightWeekPicker();
-    renderCopyrightWeek();
-  }
+  if(tab==='week') { initCopyrightWeekPicker(); renderCopyrightWeek(); }
+  if(tab==='quarter') renderCopyrightQuarter();
 }
+
+function switchCopyrightQuarter(q) {
+  currentCopyrightQuarter = q;
+  document.querySelectorAll('#crQuarterContent .tab-btn').forEach(b => b.className = 'tab-btn' + (b.textContent===q?' active':''));
+  renderRankTable('crQuarterBody', D.quarter_copyright[q]);
+}
+
+function renderCopyrightQuarter() { switchCopyrightQuarter('Q3'); }
 
 function initCopyrightWeekPicker() {
   const sel = document.getElementById('crWeekSelect');
@@ -1086,16 +1271,24 @@ function renderCopyrightWeek() {
 // ====== TAB SWITCHING: Distribution ======
 function switchDistTab(tab) {
   currentDistTab = tab;
-  document.getElementById('distTabQ2').className = 'tab-btn' + (tab==='q2'?' active':'');
+  document.getElementById('distTabQ3').className = 'tab-btn' + (tab==='q3'?' active':'');
   document.getElementById('distTabWeek').className = 'tab-btn' + (tab==='week'?' active':'');
-  document.getElementById('distQ3Content').style.display = tab==='q2'?'block':'none';
+  document.getElementById('distTabQuarter').className = 'tab-btn' + (tab==='quarter'?' active':'');
+  document.getElementById('distQ3Content').style.display = tab==='q3'?'block':'none';
   document.getElementById('distWeekContent').style.display = tab==='week'?'block':'none';
+  document.getElementById('distQuarterContent').style.display = tab==='quarter'?'block':'none';
   document.getElementById('distWeekPicker').style.display = tab==='week'?'block':'none';
-  if(tab==='week') {
-    initDistWeekPicker();
-    renderDistWeek();
-  }
+  if(tab==='week') { initDistWeekPicker(); renderDistWeek(); }
+  if(tab==='quarter') renderDistQuarter();
 }
+
+function switchDistQuarter(q) {
+  currentDistQuarter = q;
+  document.querySelectorAll('#distQuarterContent .tab-btn').forEach(b => b.className = 'tab-btn' + (b.textContent===q?' active':''));
+  renderRankTable('distQuarterBody', D.quarter_distribution[q]);
+}
+
+function renderDistQuarter() { switchDistQuarter('Q3'); }
 
 function initDistWeekPicker() {
   const sel = document.getElementById('distWeekSelect');
