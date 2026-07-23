@@ -1483,7 +1483,7 @@ document.getElementById('kpiRemain').textContent = fmtN(D.gap_to_target);
 document.getElementById('kpiRemainDays').textContent = '剩余 '+D.remaining+' 天 (至6/30)';
 
 // ====== KPI ROW 2 ======
-document.getElementById('kpiDailyAvg').textContent = fmtN(D.q2_daily_avg);
+document.getElementById('kpiDailyAvg').textContent = fmtN(D.q3_daily_avg);
 const qoqB = document.getElementById('kpiQoQ');
 qoqB.textContent = '环比Q1 '+(D.qoq>0?'+':'')+D.qoq+'%';
 qoqB.style.cssText = D.qoq>=0?'background:rgba(34,197,94,0.15);color:#22c55e':'background:rgba(239,68,68,0.15);color:#ef4444';
