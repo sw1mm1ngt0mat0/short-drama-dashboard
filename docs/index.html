@@ -1511,7 +1511,7 @@ fill.style.width = pct+'%';
 fill.textContent = fmtP(D.completion_rate);
 fill.style.background = pct>=60?'linear-gradient(90deg,#16a34a,#22c55e)':pct>=45?'linear-gradient(90deg,#d97706,#f59e0b)':'linear-gradient(90deg,#dc2626,#ef4444)';
 
-document.getElementById('progressMeta').textContent = '已用 '+D.q2_data_days+' 天 · 剩余 '+D.remaining+' 天';
+document.getElementById('progressMeta').textContent = '已用 '+D.q3_data_days+' 天 · 剩余 '+D.remaining+' 天';
 document.getElementById('gaugeCurr').textContent = fmtP(D.completion_rate);
 document.getElementById('gaugeProj').textContent = fmtP(D.projected_rate);
 document.getElementById('gaugeFuse').textContent = (D.gap_to_fuse_amount/10000).toFixed(1);
@@ -1633,7 +1633,7 @@ safeChart('dailyChart', function(cvs){
       {label:'每日业绩',data:dvals,borderColor:'#60a5fa',backgroundColor:'rgba(96,165,250,0.08)',fill:true,tension:0.3,pointRadius:2,pointHoverRadius:5,borderWidth:2},
       {label:'7日均线',data:maVals,borderColor:'#a78bfa',borderDash:[5,3],tension:0.4,pointRadius:0,borderWidth:2,spanGaps:true},
       {label:'100%达标线',data:dvals.map(()=>D.remaining_daily_target),borderColor:'rgba(239,68,68,0.35)',borderDash:[8,4],pointRadius:0,borderWidth:1,fill:false},
-      {label:'60%达标线',data:dvals.map(()=>(FUSE-D.q2_total)/D.remaining+D.q2_daily_avg),borderColor:'rgba(34,197,94,0.35)',borderDash:[8,4],pointRadius:0,borderWidth:1,fill:false}
+      {label:'60%达标线',data:dvals.map(()=>(FUSE-D.q3_total)/D.remaining+D.q3_daily_avg),borderColor:'rgba(34,197,94,0.35)',borderDash:[8,4],pointRadius:0,borderWidth:1,fill:false}
     ]},
     options:{
       responsive:true,maintainAspectRatio:false,
