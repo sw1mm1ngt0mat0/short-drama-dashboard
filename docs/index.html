@@ -1236,6 +1236,7 @@ const D = {
       {
         sales: "乌丽娅斯",
         count: 2,
+        target: 15,
         total: 534419.88,
         clients: [
           {
@@ -1253,6 +1254,7 @@ const D = {
       {
         sales: "王星予",
         count: 5,
+        target: 25,
         total: 913923.67,
         clients: [
           {
@@ -1860,8 +1862,12 @@ KH.by_sales.forEach(s => {
   totalCount += s.count; totalAmt += s.total;
   const div = document.createElement('div');
   div.className = 'kh-summary-item';
+  const targetRate = s.target > 0 ? Math.round(s.count/s.target*100) : 0;
+  const rateClass = targetRate >= 80 ? 'hit' : targetRate >= 50 ? 'near' : 'risk';
   div.innerHTML = '<div class="kh-sales">'+s.sales+'</div>'+
-    '<div class="kh-count">'+s.count+' 客活</div>'+
+    '<div class="kh-count">'+s.count+' <span style="color:var(--text3);font-size:10px">/ '+s.target+'</span> 客活</div>'+
+    '<div class="kh-progress-wrap" style="margin:4px 0;height:6px"><span class="kh-progress-fill '+rateClass+'" style="width:'+targetRate+'%"></span></div>'+
+    '<div class="kh-amount" style="font-size:11px;color:var(--text3)">完成率 '+targetRate+'%</div>'+
     '<div class="kh-amount">¥'+Math.round(s.total).toLocaleString()+'</div>';
   sumGrid.appendChild(div);
 });
