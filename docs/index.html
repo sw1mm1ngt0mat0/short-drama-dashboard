@@ -169,8 +169,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 <div class="kpi-grid-row kpi-4">
   <div class="kpi-card kpi-highlight">
     <div class="label"><span class="dot" style="background:var(--cyan)"></span>Q3业绩目标</div>
-    <div class="value">¥37,000,000</div>
-    <div class="sub">60%熔断线 ¥22,200,000</div>
+    <div class="value">¥31,000,000</div>
+    <div class="sub">60%熔断线 ¥18,600,000</div>
   </div>
   <div class="kpi-card">
     <div class="label"><span class="dot" style="background:var(--blue2)"></span>已完成业绩</div>
@@ -393,6 +393,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 </div>
 
+<!-- 销售个人目标监控 -->
+<div class="panel" style="margin-bottom:12px">
+  <div class="panel-title">🏆 销售个人目标监控（Q3业绩目标）</div>
+  <div class="kh-summary-grid" id="salesTargetGrid"></div>
+</div>
+
 <!-- 客活监控 -->
 <div class="panel" style="margin-bottom:12px">
   <div class="panel-title">🎯 客活目标达成监控（品牌名称维度 · Q3累计消耗 ≥ ¥100,000 = 1客活）</div>
@@ -439,15 +445,15 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 const D = {
   q3_total: 6058990.70,
   q3_daily_avg: 106298.08,
-  remaining_daily_target: 884028.84,
+  remaining_daily_target: 712600.27,
   q3_data_days: 57,
-  gap_60: -16141009.30,
+  gap_60: -12541009.30,
   remaining: 35,
-  projected_rate: 0.26,
-  gap_100: -30941009.30,
-  gap_to_fuse_amount: -16141009.30,
+  projected_rate: 0.32,
+  gap_100: -24941009.30,
+  gap_to_fuse_amount: -12541009.30,
   projected: 9779423.59,
-  completion_rate: 0.16,
+  completion_rate: 0.20,
   curr_week_total: 716633.19,
   curr_week_days: [
     ["20260820", 104195.56],
@@ -1812,11 +1818,33 @@ const D = {
       }
     ]
   },
-  gap_to_target: 30941009.30
+  sales_targets: [
+    {
+      sales: "乌丽娅斯",
+      target: 9000000,
+      consumption: 1803693.15,
+      daily_avg: 31643.74,
+      projected: 2911224.03,
+      projected_rate: 0.32,
+      completion_rate: 0.20,
+      gap: 7196306.85
+    },
+    {
+      sales: "王星予",
+      target: 10000000,
+      consumption: 3330123.82,
+      daily_avg: 58423.22,
+      projected: 5374936.69,
+      projected_rate: 0.54,
+      completion_rate: 0.33,
+      gap: 6669876.18
+    }
+  ],
+  gap_to_target: 24941009.30
 };
 
-const TARGET = 37000000;
-const FUSE = 22200000;
+const TARGET = 31000000;
+const FUSE = 18600000;
 
 // ====== HELPERS ======
 function fmtN(v){ return Math.round(v).toLocaleString('zh-CN'); }
@@ -2209,6 +2237,26 @@ function renderDistWeek() {
 document.getElementById('groupTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
 document.getElementById('crTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
 document.getElementById('distTabWeek').textContent = '👈 上周（'+D.week_labels[D.latest_week]+'）';
+
+// ====== 销售个人目标监控渲染 ======
+const stGrid = document.getElementById('salesTargetGrid');
+D.sales_targets.forEach(s => {
+  const div = document.createElement('div');
+  div.className = 'kh-summary-item';
+  const rate = Math.round(s.completion_rate * 100);
+  const projRate = Math.round(s.projected_rate * 100);
+  const rateClass = rate >= 80 ? 'hit' : rate >= 50 ? 'near' : rate >= 30 ? 'risk' : 'far';
+  const projClass = projRate >= 100 ? 'hit' : projRate >= 80 ? 'near' : projRate >= 60 ? 'risk' : 'far';
+  div.innerHTML = '<div class="kh-sales">'+s.sales+'</div>'+
+    '<div class="kh-count">¥'+Math.round(s.consumption/10000)+'<span style="font-size:12px;color:var(--text3)">万</span>'+
+      '<span style="font-size:11px;color:var(--text3)"> / 目标 ¥'+Math.round(s.target/10000)+'万</span></div>'+
+    '<div class="kh-progress-wrap" style="margin:4px 0;height:6px;width:100%"><span class="kh-progress-fill '+rateClass+'" style="width:'+rate+'%"></span></div>'+
+    '<div class="kh-amount">当前完成率 '+rate+'%</div>'+
+    '<div class="kh-progress-wrap" style="margin:2px 0;height:6px;width:100%"><span class="kh-progress-fill '+projClass+'" style="width:'+Math.min(projRate,100)+'%"></span></div>'+
+    '<div class="kh-amount">平推完成率 '+projRate+'%（预计 ¥'+Math.round(s.projected/10000)+'万）</div>'+
+    '<div class="kh-amount">日均 ¥'+Math.round(s.daily_avg/10000)+'万 · 缺口 ¥'+Math.round(s.gap/10000)+'万</div>';
+  stGrid.appendChild(div);
+});
 
 // ====== 客活监控渲染 ======
 const KH = D.kehuo;
