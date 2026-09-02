@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<html lang="zh-CN" data-page-node-id="hyYAh213AoThMSQyQjf8oM">
+<head data-page-node-id="FZJsDmMSwOPcnrUb4RnQQo">
+<meta charset="UTF-8" data-page-node-id="lDsKY5w9zc7wldzBFozVCC"/>
+<meta name="viewport" content="width=device-width,initial-scale=1" data-page-node-id="4aUTDt5DpZBv7av6DAAecz"/>
 <title>短漫剧业务销售看板</title>
 <script>
 /* Chart.js v4.4.7 - Inlined for zero external dependency */
@@ -152,293 +152,324 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .kh-row-near{background:rgba(34,211,238,0.04)}
 .kh-expand-btn{background:none;border:none;color:var(--blue2);cursor:pointer;font-size:11px;padding:2px 6px}
 .kh-expand-btn:hover{color:var(--cyan)}
+/* 销售个人目标监控 */
+.st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:14px}
+.st-card{background:linear-gradient(165deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.st-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.st-name{font-size:15px;font-weight:700;color:var(--text)}
+.st-badge{font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.st-badge.hit{background:rgba(34,197,94,0.16);color:var(--green)}
+.st-badge.near{background:rgba(34,211,238,0.16);color:var(--cyan)}
+.st-badge.risk{background:rgba(245,158,11,0.16);color:var(--orange)}
+.st-badge.far{background:rgba(239,68,68,0.16);color:var(--red)}
+.st-main{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+.st-main .num{font-size:30px;font-weight:800;color:var(--cyan);font-variant-numeric:tabular-nums;letter-spacing:-0.5px}
+.st-main .lab{font-size:12px;color:var(--text3)}
+.st-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:10px}
+.st-meta b{color:var(--text2);font-weight:600;font-variant-numeric:tabular-nums}
+.st-bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-bottom:4px}
+.st-bar-fill{height:100%;border-radius:6px;transition:width .4s ease}
+.st-bar-fill.hit{background:var(--green)}
+.st-bar-fill.near{background:var(--cyan)}
+.st-bar-fill.risk{background:var(--orange)}
+.st-bar-fill.far{background:var(--red)}
+.st-cap{font-size:11px;color:var(--text3);margin-bottom:16px}
+.st-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.st-metric{background:var(--bg);border-radius:10px;padding:10px 12px}
+.st-metric .k{font-size:10px;color:var(--text3);margin-bottom:3px;white-space:nowrap}
+.st-metric .v{font-size:14px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.st-proj{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px}
+.st-proj .k{font-size:12px;color:var(--text3)}
+.st-proj .v{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.st-proj .v.good{color:var(--green)}
+.st-proj .v.warn{color:var(--orange)}
 </style>
 </head>
-<body>
+<body data-page-node-id="mLcNjcnR4oO1DQMuSALbiX">
 
 <!-- HEADER -->
-<div class="header">
-  <div>
-    <h1>📊 短漫剧业务销售看板</h1>
-    <div class="meta">数据截至 <span id="dataDate">--</span> · 周期：每周四至次周三 · 已排除：笔墨留香 / 臻鼎 / 愉阅</div>
+<div class="header" data-page-node-id="InQHlWIEJwFU0WxhEKVAdd">
+  <div data-page-node-id="chhuPrjMGlx9EKcUMSTUL3">
+    <h1 data-page-node-id="2flG0ioTSWrChiBFlhBB6b">📊 短漫剧业务销售看板</h1>
+    <div class="meta" data-page-node-id="TFdHdBdTLBgQ5qkFnVKCHM">数据截至 <span id="dataDate" data-page-node-id="AJGr667lWR81JXdWmZUEe7">--</span> · 周期：每周四至次周三 · 已排除：笔墨留香 / 臻鼎 / 愉阅</div>
   </div>
-  <div id="fuseBadge" class="fuse-badge">--</div>
+  <div id="fuseBadge" class="fuse-badge" data-page-node-id="ylqSMX8KjOc9A6Zl363QZv">--</div>
 </div>
 
 <!-- KPI ROW 1：目标维度 -->
-<div class="kpi-grid-row kpi-4">
-  <div class="kpi-card kpi-highlight">
-    <div class="label"><span class="dot" style="background:var(--cyan)"></span>Q3业绩目标</div>
-    <div class="value">¥31,000,000</div>
-    <div class="sub">60%熔断线 ¥18,600,000</div>
+<div class="kpi-grid-row kpi-4" data-page-node-id="zBXo0scO5M8GETKFOVUmrf">
+  <div class="kpi-card kpi-highlight" data-page-node-id="9qEKYDCWCoaU4IAFCMYCQm">
+    <div class="label" data-page-node-id="UpHlMRZyLTY9dBgQoDrqdi"><span class="dot" style="background:var(--cyan)" data-page-node-id="LCMZuJymW04dRZquAK3X82"></span>Q3业绩目标</div>
+    <div class="value" data-page-node-id="64XUSExDkfHBea6cCsgPvL">¥31,000,000</div>
+    <div class="sub" data-page-node-id="U9tw4wbXQhTJamXK13hHUS">60%熔断线 ¥18,600,000</div>
   </div>
-  <div class="kpi-card">
-    <div class="label"><span class="dot" style="background:var(--blue2)"></span>已完成业绩</div>
-    <div class="value" id="kpiDone">--</div>
-    <div class="badge" id="kpiDoneBadge"></div>
+  <div class="kpi-card" data-page-node-id="IbxkC2NMxUn4CKxws9mZfb">
+    <div class="label" data-page-node-id="6Th4MbHOGJm7PAkBxFAc3P"><span class="dot" style="background:var(--blue2)" data-page-node-id="e5gDWrbiExg94wCCD5TkEH"></span>已完成业绩</div>
+    <div class="value" id="kpiDone" data-page-node-id="3gXy2NNonKUpjjz2Yw5LEo">--</div>
+    <div class="badge" id="kpiDoneBadge" data-page-node-id="3jAt63Xu1A0MzNpXOTrZg0"></div>
   </div>
-  <div class="kpi-card">
-    <div class="label"><span class="dot" style="background:var(--purple)"></span>平推完成业绩</div>
-    <div class="value" id="kpiProjected">--</div>
-    <div class="badge" id="kpiProjectedBadge"></div>
+  <div class="kpi-card" data-page-node-id="vaSrzBE14L8kMZk85FjCUP">
+    <div class="label" data-page-node-id="fhDyHBgeYaKLaXlIqkjEvZ"><span class="dot" style="background:var(--purple)" data-page-node-id="tLPVcEKTTC1TAXGaYt3ib7"></span>平推完成业绩</div>
+    <div class="value" id="kpiProjected" data-page-node-id="UiarUGCFUBF9j17IBEeVNE">--</div>
+    <div class="badge" id="kpiProjectedBadge" data-page-node-id="CinZtPA6lg2qcIjIKyQbPU"></div>
   </div>
-  <div class="kpi-card">
-    <div class="label"><span class="dot" style="background:var(--orange)"></span>剩余需完成</div>
-    <div class="value" id="kpiRemain">--</div>
-    <div class="sub" id="kpiRemainDays">--</div>
+  <div class="kpi-card" data-page-node-id="bCP191UZpuwQgMzpSt3OVu">
+    <div class="label" data-page-node-id="kPoB2dOUYWCMReQJx0SRiG"><span class="dot" style="background:var(--orange)" data-page-node-id="FvnYoyMlDDSFHCkkjrXeK2"></span>剩余需完成</div>
+    <div class="value" id="kpiRemain" data-page-node-id="I6fYy3dm6jHUP4skEhrN0I">--</div>
+    <div class="sub" id="kpiRemainDays" data-page-node-id="XaT8R6ouEcS8foMGp0jfi8">--</div>
   </div>
 </div>
 
 <!-- KPI ROW 2：日均/Gap维度 -->
-<div class="kpi-grid-row kpi-5">
-  <div class="kpi-card">
-    <div class="label"><span class="dot" style="background:var(--green)"></span>Q3当前日均</div>
-    <div class="value" id="kpiDailyAvg">--</div>
-    <div class="badge" id="kpiQoQ"></div>
+<div class="kpi-grid-row kpi-5" data-page-node-id="5wMtZ7GvHGyNqARrIR2hTK">
+  <div class="kpi-card" data-page-node-id="D9noQGgCabOBbP4MAy2nTI">
+    <div class="label" data-page-node-id="RoMNvXxSmKNHSok0rimKGD"><span class="dot" style="background:var(--green)" data-page-node-id="gSy9Gl6VUmjAYgzNZ8XZv0"></span>Q3当前日均</div>
+    <div class="value" id="kpiDailyAvg" data-page-node-id="UxHwtTIhsJ2COVKsMlDu2k">--</div>
+    <div class="badge" id="kpiQoQ" data-page-node-id="oNabHFYvp4bCqDhKjZUvex"></div>
   </div>
-  <div class="kpi-card kv-danger">
-    <div class="label"><span class="dot" style="background:var(--red)"></span>剩余日均目标(100%)</div>
-    <div class="value" id="kpiDailyTarget">--</div>
-    <div class="sub">完成100%需日均</div>
+  <div class="kpi-card kv-danger" data-page-node-id="tyT4hL0IKJHfVRDm9CIlh4">
+    <div class="label" data-page-node-id="59KNEi0yFfMfEWLbmL98GV"><span class="dot" style="background:var(--red)" data-page-node-id="9sRd0g0u1j75777cOsJ0Tu"></span>剩余日均目标(100%)</div>
+    <div class="value" id="kpiDailyTarget" data-page-node-id="igGbYeDmdCGaFF4GlSKMpQ">--</div>
+    <div class="sub" data-page-node-id="RGrVl37cYVT6G4BUqzyRlO">完成100%需日均</div>
   </div>
-  <div class="kpi-card kv-danger">
-    <div class="label"><span class="dot" style="background:var(--orange)"></span>完成100%日均Gap</div>
-    <div class="value" id="kpiGap100">--</div>
-    <div class="sub">需额外日均增量</div>
+  <div class="kpi-card kv-danger" data-page-node-id="nNupgsP7heHhBJHV56TFjS">
+    <div class="label" data-page-node-id="NW5E6Gq9ODztT7E5nBbdMr"><span class="dot" style="background:var(--orange)" data-page-node-id="qEWH5u7mutwSuk2IusYGCa"></span>完成100%日均Gap</div>
+    <div class="value" id="kpiGap100" data-page-node-id="BOQ8Uxk448uCpCwHGFmcfn">--</div>
+    <div class="sub" data-page-node-id="ZiZiLrNwQsviIvrfCgQNPi">需额外日均增量</div>
   </div>
-  <div class="kpi-card kv-safe">
-    <div class="label"><span class="dot" style="background:var(--green)"></span>完成60%日均Gap</div>
-    <div class="value" id="kpiGap60">--</div>
-    <div class="sub" id="kpiGap60Sub">--</div>
+  <div class="kpi-card kv-safe" data-page-node-id="SimXT4CFp4Qqsxca5UnEHK">
+    <div class="label" data-page-node-id="yoU1zDYezWgmErUr1Wvw3d"><span class="dot" style="background:var(--green)" data-page-node-id="DuFp9X45MAIh6VM1SrjHF1"></span>完成60%日均Gap</div>
+    <div class="value" id="kpiGap60" data-page-node-id="PKsODUluKXG9H5I2XW2MwI">--</div>
+    <div class="sub" id="kpiGap60Sub" data-page-node-id="VXb945BDRNbMJiJ1cTc7Ky">--</div>
   </div>
-  <div class="kpi-card" id="kpiWeekCard">
-    <div class="label"><span class="dot" style="background:var(--cyan)"></span><span id="kpiWeekLabel">本周业绩消耗</span></div>
-    <div class="value" id="kpiWeek">--</div>
-    <div class="badge" id="kpiWeekBadge"></div>
-    <div class="week-note" id="kpiWeekNote">--</div>
+  <div class="kpi-card" id="kpiWeekCard" data-page-node-id="cGFgfeqCcVqsIchni77jPF">
+    <div class="label" data-page-node-id="8SBPoSlJAqYcIcHEHOGkDk"><span class="dot" style="background:var(--cyan)" data-page-node-id="qYEwgBNE4mK7Ve4lAAPXr9"></span><span id="kpiWeekLabel" data-page-node-id="PL6BZulE6JE62nmJU5BmAA">本周业绩消耗</span></div>
+    <div class="value" id="kpiWeek" data-page-node-id="rdLDZX2xkKF0YBq0WN6IDa">--</div>
+    <div class="badge" id="kpiWeekBadge" data-page-node-id="2aSQzuOtRnlW3m226f1AAY"></div>
+    <div class="week-note" id="kpiWeekNote" data-page-node-id="YLIFwjcDB4sHQB2RCbpF5D">--</div>
   </div>
 </div>
 
 <!-- PROGRESS BAR -->
-<div class="progress-panel">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
-    <span style="font-size:12px;color:var(--text2);font-weight:600">Q3完成进度</span>
-    <span style="font-size:12px;color:var(--text3)" id="progressMeta">--</span>
+<div class="progress-panel" data-page-node-id="2KFHuaUbGIXFmMgarrwgfC">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px" data-page-node-id="n7XWlc1dB80aabxTNR5Zjf">
+    <span style="font-size:12px;color:var(--text2);font-weight:600" data-page-node-id="SOzreLtnkJspShWOjBGvby">Q3完成进度</span>
+    <span style="font-size:12px;color:var(--text3)" id="progressMeta" data-page-node-id="ezlJvBWlFaZYw9OVHz9oUu">--</span>
   </div>
-  <div class="progress-wrap">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    <div class="progress-marker" style="left:60%"></div>
+  <div class="progress-wrap" data-page-node-id="ntW5CEWFX1MuGF5H9mG5Ki">
+    <div class="progress-fill" id="progressFill" style="width:0%" data-page-node-id="7PAvKWXwsV56o4yeMhCwj3"></div>
+    <div class="progress-marker" style="left:60%" data-page-node-id="qwthaZ83RpjufpOUADRvig"></div>
   </div>
-  <div class="progress-labels"><span>0%</span><span></span><span>100%</span></div>
-  <div class="gauge-row">
-    <div class="g-item g-danger">
-      <div class="g-label">当前完成率</div>
-      <div class="g-val" id="gaugeCurr">--</div>
+  <div class="progress-labels" data-page-node-id="1mY6UqjT6xvMJtnnDi7qeb"><span data-page-node-id="CznKEmNciq4ciDTbklD3x1">0%</span><span data-page-node-id="7kBAL8oGu7pLMDCoshrufl"></span><span data-page-node-id="X8b4wL3bVbirqk0004puW1">100%</span></div>
+  <div class="gauge-row" data-page-node-id="q7QlyMJfi7DqT3uWa9FwlN">
+    <div class="g-item g-danger" data-page-node-id="wt5UVpxV1rrRWK0GiTMO48">
+      <div class="g-label" data-page-node-id="8JszbE7eyO4UkkEj5rw4PE">当前完成率</div>
+      <div class="g-val" id="gaugeCurr" data-page-node-id="gWIW1KHC70oPvYnx1TQ1t5">--</div>
     </div>
-    <div class="g-item g-blue">
-      <div class="g-label">平推完成率</div>
-      <div class="g-val" id="gaugeProj">--</div>
+    <div class="g-item g-blue" data-page-node-id="uUjah6bcGZSATY3BctDBEy">
+      <div class="g-label" data-page-node-id="AygNZmYoKMOeGjPuVetU7g">平推完成率</div>
+      <div class="g-val" id="gaugeProj" data-page-node-id="PAU8EugvFZLodjfWm1ukDC">--</div>
     </div>
-    <div class="g-item g-danger">
-      <div class="g-label">距熔断还需</div>
-      <div class="g-val" id="gaugeFuse">--</div>
-      <div class="g-unit">万元</div>
+    <div class="g-item g-danger" data-page-node-id="jEkhuNAt431Zxb1jLDUJSG">
+      <div class="g-label" data-page-node-id="bZK0HjxOzuBHeU4oojx4Od">距熔断还需</div>
+      <div class="g-val" id="gaugeFuse" data-page-node-id="5xJEo5nKs5bxLn6jqqP7xT">--</div>
+      <div class="g-unit" data-page-node-id="NY0STYTb88JKkpZDHT0DOy">万元</div>
     </div>
-    <div class="g-item">
-      <div class="g-label">Q3剩余天数</div>
-      <div class="g-val" style="color:var(--text)" id="gaugeRemain">--</div>
-      <div class="g-unit">天</div>
+    <div class="g-item" data-page-node-id="OWWZuHB1qkyZWCdTC4m1DM">
+      <div class="g-label" data-page-node-id="mnqkDUxDeM0SmRVdaZX3zS">Q3剩余天数</div>
+      <div class="g-val" style="color:var(--text)" id="gaugeRemain" data-page-node-id="2g767A6J4ABkog1vmeMgop">--</div>
+      <div class="g-unit" data-page-node-id="qF688pYWmRBFh2o5aDo1w8">天</div>
     </div>
   </div>
 </div>
 
 <!-- CHARTS ROW 1：本周柱状图 + 全年分周趋势 -->
-<div class="row row-half">
-  <div class="panel">
-    <div class="panel-title">📅 <span id="weekChartTitle">本周分天消耗</span>（<span id="weekRangeLabel">--</span>）</div>
-    <div class="chart-wrap-sm"><canvas id="weekDayChart"></canvas></div>
+<div class="row row-half" data-page-node-id="rTkpIocbuuBrlxYEVglxtT">
+  <div class="panel" data-page-node-id="gaPc8ayA5YSRt1vGkPfPQB">
+    <div class="panel-title" data-page-node-id="rXCp6I9uEHv4jjWCM70U3I">📅 <span id="weekChartTitle" data-page-node-id="xwLq4TxmcZUvMigmhRJqpH">本周分天消耗</span>（<span id="weekRangeLabel" data-page-node-id="KxKMFaBB2OBruC2i7J3s7Y">--</span>）</div>
+    <div class="chart-wrap-sm" data-page-node-id="pKQQe8RDPZERSoQEXRzCQ8"><canvas id="weekDayChart" data-page-node-id="1zQD8IGsFrTnNaexYySIov"></canvas></div>
   </div>
-  <div class="panel">
-    <div class="panel-title">📆 今年分周消耗趋势（周四~周三）</div>
-    <div class="chart-wrap-sm"><canvas id="allWeekChart"></canvas></div>
+  <div class="panel" data-page-node-id="wgAiqdunCsxyHPGRaaAX27">
+    <div class="panel-title" data-page-node-id="z9FKsLCVREBOHd7hg4Uj4M">📆 今年分周消耗趋势（周四~周三）</div>
+    <div class="chart-wrap-sm" data-page-node-id="BmFiBJYZUPTlSpWyKfh7nw"><canvas id="allWeekChart" data-page-node-id="rOnyKttwLnN0gek9a1KqbN"></canvas></div>
   </div>
 </div>
 
 <!-- CHARTS ROW 2：近30日趋势 + 版权/分销堆积图 -->
-<div class="row row-2-1">
-  <div class="panel">
-    <div class="panel-title">📈 Q3每日业绩趋势（近30日 + 7日均线）</div>
-    <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+<div class="row row-2-1" data-page-node-id="yuLLBJVzfnvPskfMG8J07E">
+  <div class="panel" data-page-node-id="kON8tWQADlDHjSSmGPFXI3">
+    <div class="panel-title" data-page-node-id="hPCM52VO8Prvu9bYVR2TmR">📈 Q3每日业绩趋势（近30日 + 7日均线）</div>
+    <div class="chart-wrap" data-page-node-id="gNwDZoGnibkVGw8UXITJP4"><canvas id="dailyChart" data-page-node-id="6kh9NfnITpx6bEdJ8reJTY"></canvas></div>
   </div>
-  <div class="panel">
-    <div class="panel-title">📊 版权/分销消耗周趋势（堆积图）</div>
-    <div class="chart-wrap"><canvas id="identityChart"></canvas></div>
-    <div class="week-note" style="margin-top:4px">按飞书Q列身份字段分类，总扣费口径，分周堆积</div>
+  <div class="panel" data-page-node-id="7itnSjC9zrFQHbvXqtSU6L">
+    <div class="panel-title" data-page-node-id="gN7jDhwW2fcqxkYCCHmGks">📊 版权/分销消耗周趋势（堆积图）</div>
+    <div class="chart-wrap" data-page-node-id="kgPZ8ogqOMxXDd4c8VoAXK"><canvas id="identityChart" data-page-node-id="pa3tWS4kxcco32ThU9PtB0"></canvas></div>
+    <div class="week-note" style="margin-top:4px" data-page-node-id="Haf6vSA5nGYbC2BZ9PaI79">按飞书Q列身份字段分类，总扣费口径，分周堆积</div>
   </div>
 </div>
 
 <!-- TOP 10s：集团排名 + 版权排名 + 分销排名（Q3累计 / 上周 / 季度） -->
-<div class="row row-half">
-  <div class="panel">
-    <div class="panel-title">🏆 销售定义集团消耗排名</div>
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchGroupTab('q3')" id="groupTabQ3">Q3累计</button>
-      <button class="tab-btn" onclick="switchGroupTab('week')" id="groupTabWeek">👈 上周</button>
-      <button class="tab-btn" onclick="switchGroupTab('quarter')" id="groupTabQuarter">📅 季度</button>
+<div class="row row-half" data-page-node-id="MbfGSUMsn7gyyyqRF2GLvY">
+  <div class="panel" data-page-node-id="ifNhqFZFNw7Mnk1Ql3yaPG">
+    <div class="panel-title" data-page-node-id="c6xooCnPONIaB61TOVcx7E">🏆 销售定义集团消耗排名</div>
+    <div class="tab-bar" data-page-node-id="PrtKnPQNh3ot15VeUkIHEX">
+      <button class="tab-btn active" onclick="switchGroupTab('q3')" id="groupTabQ3" data-page-node-id="tSDToUDohHRICPfELwflHV">Q3累计</button>
+      <button class="tab-btn" onclick="switchGroupTab('week')" id="groupTabWeek" data-page-node-id="3wvnWbvHzWZwRuoAKbAFrN">👈 上周</button>
+      <button class="tab-btn" onclick="switchGroupTab('quarter')" id="groupTabQuarter" data-page-node-id="P9nPzQEGdbTPyKrzsQRQ5y">📅 季度</button>
     </div>
-    <div class="week-selector" id="groupWeekPicker" style="display:none">
-      <select id="groupWeekSelect" onchange="renderGroupWeek()"></select>
+    <div class="week-selector" id="groupWeekPicker" style="display:none" data-page-node-id="C7tdnoRt0mjnvgFfXkTHnM">
+      <select id="groupWeekSelect" onchange="renderGroupWeek()" data-page-node-id="cwHuT2lr4hvlKnISQUHfuN"></select>
     </div>
-    <div id="groupQ3Content">
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
-        <tbody id="groupQ3Body"></tbody>
+    <div id="groupQ3Content" data-page-node-id="wK8QwN43bVs3e1FFPDuiI7">
+      <table class="rank-table" data-page-node-id="k7GB5xK28NfD5l1UsbH7av">
+        <thead data-page-node-id="X2DT5EC5uEljpBqBHE2iBn"><tr data-page-node-id="GbgDnXEOtyXCV7id8ZOUrq"><th style="width:24px" data-page-node-id="Ctx7MhStG3wedDIHS19UYd">#</th><th data-page-node-id="lLt3gmHHnIBIOetudVZ2HT">销售定义集团</th><th class="rank-bar-wrap" data-page-node-id="ztS9Ga7iKqS2j4kM5MIwPi"></th><th class="num" style="width:90px" data-page-node-id="hrppc4EkxQORfmgLC8mkNC">总消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="Hsp3A5fQLl1aCP4ZicmtgY">占比</th><th class="num" style="width:60px" data-page-node-id="ovRH7fgNfAneTAoRcXIgFZ">季度环比</th></tr></thead>
+        <tbody id="groupQ3Body" data-page-node-id="v6VtIvi7znZveQiZNYCrI9"></tbody>
       </table>
-      <div class="week-note" style="margin-top:6px">消耗口径 = 总扣费(元) · QoQ对比Q2同期 · 按销售定义集团名称(M列)聚合</div>
+      <div class="week-note" style="margin-top:6px" data-page-node-id="bjPXiCEzKrAC2KY8STHF8p">消耗口径 = 总扣费(元) · QoQ对比Q2同期 · 按销售定义集团名称(M列)聚合</div>
     </div>
-    <div id="groupQuarterContent" style="display:none">
-      <div class="tab-bar" style="padding:4px 0 8px">
-        <button class="tab-btn active" onclick="switchGroupQuarter('Q3')">Q3</button>
-        <button class="tab-btn" onclick="switchGroupQuarter('Q2')">Q2</button>
-        <button class="tab-btn" onclick="switchGroupQuarter('Q1')">Q1</button>
+    <div id="groupQuarterContent" style="display:none" data-page-node-id="bhHqeZRZWIHBBxQ1V7HM8T">
+      <div class="tab-bar" style="padding:4px 0 8px" data-page-node-id="EzWyms4VQcPWLCw4h5CrIN">
+        <button class="tab-btn active" onclick="switchGroupQuarter('Q3')" data-page-node-id="tC4YOOe4hZNBUlvbgJ9HLm">Q3</button>
+        <button class="tab-btn" onclick="switchGroupQuarter('Q2')" data-page-node-id="pssRhMA4yMkXtY2DWIgWkN">Q2</button>
+        <button class="tab-btn" onclick="switchGroupQuarter('Q1')" data-page-node-id="nF77KDBItUcfKUA5E8zQ2G">Q1</button>
       </div>
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">季度消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
-        <tbody id="groupQuarterBody"></tbody>
+      <table class="rank-table" data-page-node-id="aiNwnx57bK5Gft5WUqwlJQ">
+        <thead data-page-node-id="aslRr72MAN4SR7imPQFKmj"><tr data-page-node-id="oD1H8mLejzzE5zH9UxrO8k"><th style="width:24px" data-page-node-id="ck5s8N3gb9bc7pAyGDutg7">#</th><th data-page-node-id="BBlZLfDsykR2hFLBxjkHUN">销售定义集团</th><th class="rank-bar-wrap" data-page-node-id="mMhkmhrboeDLHWRlzCPaH5"></th><th class="num" style="width:90px" data-page-node-id="Pqy9uA73BkM2ZZ0hD7z3hY">季度消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="M5MLQstFpB8DKDRaL2e7yg">占比</th><th class="num" style="width:60px" data-page-node-id="pwe3hVMOoKyqhAVLEArw8h">季度环比</th></tr></thead>
+        <tbody id="groupQuarterBody" data-page-node-id="3uEtaRQYMOhLvGZOZvBU6a"></tbody>
       </table>
     </div>
-    <div id="groupWeekContent" style="display:none">
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">周消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">周环比</th></tr></thead>
-        <tbody id="groupWeekBody"></tbody>
+    <div id="groupWeekContent" style="display:none" data-page-node-id="ABheH186FFF60d8V84L2xc">
+      <table class="rank-table" data-page-node-id="6XCPkYchw6SAZEqb8ygLle">
+        <thead data-page-node-id="FGCqt8MdxBNyCjHgiisjWa"><tr data-page-node-id="AI66mFZVG0jaE40EZsmVTv"><th style="width:24px" data-page-node-id="9uOWOBumt8IiiSQyoej49Z">#</th><th data-page-node-id="pstzdAxvGRv54Lc1OeZizt">销售定义集团</th><th class="rank-bar-wrap" data-page-node-id="MzeVt5GmrhO5Y7spPBZ5kT"></th><th class="num" style="width:90px" data-page-node-id="VD8dHLDy2CpYawi5v7Em1O">周消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="GGMe5bMXeJLGswd47qfPzo">占比</th><th class="num" style="width:60px" data-page-node-id="0FrAe3K6g2UOYrRcTERVJN">周环比</th></tr></thead>
+        <tbody id="groupWeekBody" data-page-node-id="b02hH1PBRElLBoaO1l7PHx"></tbody>
       </table>
-      <div class="week-note" style="margin-top:4px" id="groupWeekNote">--</div>
+      <div class="week-note" style="margin-top:4px" id="groupWeekNote" data-page-node-id="9qgNXirBHeQWN54IRapZ7u">--</div>
     </div>
   </div>
-  <div class="panel">
-    <div class="panel-title">📋 版权消耗排名</div>
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchCopyrightTab('q3')" id="crTabQ3">Q3累计</button>
-      <button class="tab-btn" onclick="switchCopyrightTab('week')" id="crTabWeek">👈 上周</button>
-      <button class="tab-btn" onclick="switchCopyrightTab('quarter')" id="crTabQuarter">📅 季度</button>
+  <div class="panel" data-page-node-id="Cl96RtVcZJb7hpF5H9CYs6">
+    <div class="panel-title" data-page-node-id="1FMDYR8PE1m4IxxwaySon0">📋 版权消耗排名</div>
+    <div class="tab-bar" data-page-node-id="zbuNOkqlZAPVGBsdxC7YKo">
+      <button class="tab-btn active" onclick="switchCopyrightTab('q3')" id="crTabQ3" data-page-node-id="gZQuXhBp9pnkBPCXIh4P8a">Q3累计</button>
+      <button class="tab-btn" onclick="switchCopyrightTab('week')" id="crTabWeek" data-page-node-id="rLYs9dbZuHChQi2tQYXgCq">👈 上周</button>
+      <button class="tab-btn" onclick="switchCopyrightTab('quarter')" id="crTabQuarter" data-page-node-id="pYZUUvzEKRQCG0uQCpIlbC">📅 季度</button>
     </div>
-    <div class="week-selector" id="crWeekPicker" style="display:none">
-      <select id="crWeekSelect" onchange="renderCopyrightWeek()">
+    <div class="week-selector" id="crWeekPicker" style="display:none" data-page-node-id="TtOoWx18eTOjAtTMDr3xbQ">
+      <select id="crWeekSelect" onchange="renderCopyrightWeek()" data-page-node-id="BoqQgzTWmJshHt8xr4c5hm">
       </select>
     </div>
-    <div id="crQ3Content">
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
-        <tbody id="crQ3Body"></tbody>
+    <div id="crQ3Content" data-page-node-id="rfv0jccl8JxhRf5RiwG0eX">
+      <table class="rank-table" data-page-node-id="wc9EQ9Ud2DqXKZReOoehEM">
+        <thead data-page-node-id="83VxUP5IqMom9ox3eTnGxj"><tr data-page-node-id="ZG6qyhEiLSyliSBFUHge2D"><th style="width:24px" data-page-node-id="e8RobQgveFwC7TY6dYfvA3">#</th><th data-page-node-id="JvFlZPbgx9uYoO1JBwrjSW">版权名称</th><th class="rank-bar-wrap" data-page-node-id="eOEUMYsCD9az1WoGiGCjmf"></th><th class="num" style="width:90px" data-page-node-id="gf6paaXc5962ijO8FruIxi">总消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="ppbCMxoWQwlvTwytN7yiKg">占比</th><th class="num" style="width:60px" data-page-node-id="DS7Ep367RDE6vqibCbmCB4">季度环比</th></tr></thead>
+        <tbody id="crQ3Body" data-page-node-id="A8U7JXEmBajUSBiA131dXp"></tbody>
       </table>
-      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"版权自投"→M列集团聚合 · QoQ对比Q2同期 · 总扣费直接求和</div>
+      <div class="week-note" style="margin-top:6px" data-page-node-id="MCMez5KqoNJFQP0tvjZPuh">来源：飞书Q列筛选"版权自投"→M列集团聚合 · QoQ对比Q2同期 · 总扣费直接求和</div>
     </div>
-    <div id="crQuarterContent" style="display:none">
-      <div class="tab-bar" style="padding:4px 0 8px">
-        <button class="tab-btn active" onclick="switchCopyrightQuarter('Q3')">Q3</button>
-        <button class="tab-btn" onclick="switchCopyrightQuarter('Q2')">Q2</button>
-        <button class="tab-btn" onclick="switchCopyrightQuarter('Q1')">Q1</button>
+    <div id="crQuarterContent" style="display:none" data-page-node-id="DiKHClCqvtyu4lfmhqyM3H">
+      <div class="tab-bar" style="padding:4px 0 8px" data-page-node-id="99ElaGWsYyxa5KB8gYqCVo">
+        <button class="tab-btn active" onclick="switchCopyrightQuarter('Q3')" data-page-node-id="sQGHPuLwoTGoqVBR3RwXbi">Q3</button>
+        <button class="tab-btn" onclick="switchCopyrightQuarter('Q2')" data-page-node-id="V1qa927U0Idyne30DIynzm">Q2</button>
+        <button class="tab-btn" onclick="switchCopyrightQuarter('Q1')" data-page-node-id="JpA7LbDSSqPCJBd3nEqyBU">Q1</button>
       </div>
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">季度消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
-        <tbody id="crQuarterBody"></tbody>
+      <table class="rank-table" data-page-node-id="X9b9oEFROahu3bshGwi7ps">
+        <thead data-page-node-id="NR5UyRIA0puy3djXcbdbfe"><tr data-page-node-id="40P0zQzvPPGT4vhQ3rR0kR"><th style="width:24px" data-page-node-id="WvcC0nNYQtOTPt8UJkHtDx">#</th><th data-page-node-id="YCddACbDSRI6xLAXeIP62h">版权名称</th><th class="rank-bar-wrap" data-page-node-id="qyeImbhL2sGMnfmP423oFt"></th><th class="num" style="width:90px" data-page-node-id="e5oCexUGrLhvLYPBoubdRW">季度消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="BnsDmbeSB4u01pCet1xDCn">占比</th><th class="num" style="width:60px" data-page-node-id="QNAstvZXEp4wWX851HnJE0">季度环比</th></tr></thead>
+        <tbody id="crQuarterBody" data-page-node-id="Y0d6QguIDnWXSNRNSvYGHQ"></tbody>
       </table>
     </div>
-    <div id="crWeekContent" style="display:none">
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>版权名称</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">周消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">周环比</th></tr></thead>
-        <tbody id="crWeekBody"></tbody>
+    <div id="crWeekContent" style="display:none" data-page-node-id="FgeObRcmoinNOdQR6OZbM5">
+      <table class="rank-table" data-page-node-id="4SGbwdQRAVjzFmO8MaD32B">
+        <thead data-page-node-id="H1xUPTiZDqssuTVu6XNVlt"><tr data-page-node-id="WQN3wQsg7bxZBtG4tCDyWS"><th style="width:24px" data-page-node-id="ejueMBV3bUTMCVISFxaczX">#</th><th data-page-node-id="9AO8h2zFw8eJXgsbSCeNYQ">版权名称</th><th class="rank-bar-wrap" data-page-node-id="P0gJmZ8KCbqwUkJAYkegAF"></th><th class="num" style="width:90px" data-page-node-id="nx3BIBT9y4rIwpZu1wu4mY">周消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="5hpzQ0GENaFxfp2jjGj7lE">占比</th><th class="num" style="width:60px" data-page-node-id="NNwULUrwkhd12rB9VVKLTR">周环比</th></tr></thead>
+        <tbody id="crWeekBody" data-page-node-id="N8aDKbTro1J6UARMBjxrGZ"></tbody>
       </table>
-      <div class="week-note" style="margin-top:4px" id="crWeekNote">--</div>
+      <div class="week-note" style="margin-top:4px" id="crWeekNote" data-page-node-id="qQIZtgVjIiciVFl4toucx5">--</div>
     </div>
   </div>
   <!-- 分销消耗排名 -->
-  <div class="panel">
-    <div class="panel-title">📋 分销消耗排名</div>
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchDistTab('q3')" id="distTabQ3">Q3累计</button>
-      <button class="tab-btn" onclick="switchDistTab('week')" id="distTabWeek">👈 上周</button>
-      <button class="tab-btn" onclick="switchDistTab('quarter')" id="distTabQuarter">📅 季度</button>
+  <div class="panel" data-page-node-id="IuCw6tgMswVkzQ4btdvcCd">
+    <div class="panel-title" data-page-node-id="giNrTvhdyE9hqkomdqPJEA">📋 分销消耗排名</div>
+    <div class="tab-bar" data-page-node-id="LWZMmhWZfEBy216NFxLuUm">
+      <button class="tab-btn active" onclick="switchDistTab('q3')" id="distTabQ3" data-page-node-id="spJhfSBdoLoghNmdUbe5Xi">Q3累计</button>
+      <button class="tab-btn" onclick="switchDistTab('week')" id="distTabWeek" data-page-node-id="QKA1dwuLCumfW3hFzkp06r">👈 上周</button>
+      <button class="tab-btn" onclick="switchDistTab('quarter')" id="distTabQuarter" data-page-node-id="A7KmvqwJ4HLvhNyFbvEEpM">📅 季度</button>
     </div>
-    <div class="week-selector" id="distWeekPicker" style="display:none">
-      <select id="distWeekSelect" onchange="renderDistWeek()"></select>
+    <div class="week-selector" id="distWeekPicker" style="display:none" data-page-node-id="BLJOQcKL2pX8BG1RlSVfFr">
+      <select id="distWeekSelect" onchange="renderDistWeek()" data-page-node-id="22LIedOvniZl6lLEPwafHh"></select>
     </div>
-    <div id="distQ3Content">
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">总消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
-        <tbody id="distQ3Body"></tbody>
+    <div id="distQ3Content" data-page-node-id="wudMqBCg61CQCWZlubwH5Y">
+      <table class="rank-table" data-page-node-id="w4ndEPcmpC02dYgFK3qVei">
+        <thead data-page-node-id="L80CNMLHLFAwol79BtpTIb"><tr data-page-node-id="3eoGu0dW6Zp1ukilh3Bku1"><th style="width:24px" data-page-node-id="ORpxuatF647r5GT3CF2lWU">#</th><th data-page-node-id="FOueP27dptz8cSoh1N3G8c">销售定义集团</th><th class="rank-bar-wrap" data-page-node-id="psdB09Yx6BPSMAG62d2iST"></th><th class="num" style="width:90px" data-page-node-id="Qzr9gB2ZmKL62YKUNGkTez">总消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="ze0CR6dDPkkBMNYknYBu1H">占比</th><th class="num" style="width:60px" data-page-node-id="wvleiaopQ5DAsDIHWbGzHk">季度环比</th></tr></thead>
+        <tbody id="distQ3Body" data-page-node-id="flnD9HCLBksekTeirowAiS"></tbody>
       </table>
-      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"分销"→M列集团聚合 · QoQ对比Q2同期 · 总扣费直接求和</div>
+      <div class="week-note" style="margin-top:6px" data-page-node-id="ngL9qdQJTvbOZpICl96CiM">来源：飞书Q列筛选"分销"→M列集团聚合 · QoQ对比Q2同期 · 总扣费直接求和</div>
     </div>
-    <div id="distQuarterContent" style="display:none">
-      <div class="tab-bar" style="padding:4px 0 8px">
-        <button class="tab-btn active" onclick="switchDistQuarter('Q3')">Q3</button>
-        <button class="tab-btn" onclick="switchDistQuarter('Q2')">Q2</button>
-        <button class="tab-btn" onclick="switchDistQuarter('Q1')">Q1</button>
+    <div id="distQuarterContent" style="display:none" data-page-node-id="uhyYD8ULGaCv4MKplFHkVr">
+      <div class="tab-bar" style="padding:4px 0 8px" data-page-node-id="wjUsWOvUss2rJMJyjDbWxJ">
+        <button class="tab-btn active" onclick="switchDistQuarter('Q3')" data-page-node-id="0uR8kCPNruFECxJGeC6v4M">Q3</button>
+        <button class="tab-btn" onclick="switchDistQuarter('Q2')" data-page-node-id="aNNa3tmvxldcIK7kyHncXv">Q2</button>
+        <button class="tab-btn" onclick="switchDistQuarter('Q1')" data-page-node-id="DHIwzD06HDPnTFnmBE0Cym">Q1</button>
       </div>
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">季度消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">季度环比</th></tr></thead>
-        <tbody id="distQuarterBody"></tbody>
+      <table class="rank-table" data-page-node-id="HeIUII0wNn2YEdkvKH0PZz">
+        <thead data-page-node-id="rMXXGCfn7KWsaFyWHR7kf2"><tr data-page-node-id="q1vuso3nowSF9f6jhwrPou"><th style="width:24px" data-page-node-id="5PaT4cTGQd6Futq8KBmA4H">#</th><th data-page-node-id="DDaTpZudoBfzEJYNq68hkf">销售定义集团</th><th class="rank-bar-wrap" data-page-node-id="D5XwINHsXseCJzDOF7lDDa"></th><th class="num" style="width:90px" data-page-node-id="t6PCFA5ntXDzDW1pXSVG4K">季度消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="VWZ5ZnEQzsjBYPMifUTIc6">占比</th><th class="num" style="width:60px" data-page-node-id="Wq79IivsRWynJcXs7bRK8s">季度环比</th></tr></thead>
+        <tbody id="distQuarterBody" data-page-node-id="7aTkKcZJZBssnoyA3MRFmg"></tbody>
       </table>
     </div>
-      <div class="week-note" style="margin-top:6px">来源：飞书Q列筛选"分销"→聚合到销售定义集团名称 · 总扣费直接求和</div>
+      <div class="week-note" style="margin-top:6px" data-page-node-id="o0KivS6g6Gtt3NYF2KlR8Y">来源：飞书Q列筛选"分销"→聚合到销售定义集团名称 · 总扣费直接求和</div>
     </div>
-    <div id="distWeekContent" style="display:none">
-      <table class="rank-table">
-        <thead><tr><th style="width:24px">#</th><th>销售定义集团</th><th class="rank-bar-wrap"></th><th class="num" style="width:90px">周消耗(元)</th><th class="pct" style="width:52px">占比</th><th class="num" style="width:60px">周环比</th></tr></thead>
-        <tbody id="distWeekBody"></tbody>
+    <div id="distWeekContent" style="display:none" data-page-node-id="MTUOgFG7dALwWs6VI4hzxu">
+      <table class="rank-table" data-page-node-id="2m8J6quFdgf9oGamaTt3sv">
+        <thead data-page-node-id="CZ5k8K46gJ9bwSXgoHE1nK"><tr data-page-node-id="UOlOnvKoUOY4PSTPUCXoNf"><th style="width:24px" data-page-node-id="bEbo1K1oP9pTJPSkExC7yc">#</th><th data-page-node-id="VdO2FjMzfdUoAXnvm9fPnf">销售定义集团</th><th class="rank-bar-wrap" data-page-node-id="5KBAtzCLnOr4mBCxBn410h"></th><th class="num" style="width:90px" data-page-node-id="I3YieIG3XeeUpYaJ5MjyTD">周消耗(元)</th><th class="pct" style="width:52px" data-page-node-id="AXntnj2N3z52y5cKUcNAob">占比</th><th class="num" style="width:60px" data-page-node-id="MZmcOdmTl9B4Ga2oKARQZB">周环比</th></tr></thead>
+        <tbody id="distWeekBody" data-page-node-id="um0XNyejMVV3h7W07gBjGI"></tbody>
       </table>
-      <div class="week-note" style="margin-top:4px" id="distWeekNote">--</div>
+      <div class="week-note" style="margin-top:4px" id="distWeekNote" data-page-node-id="ykLbSuVAo5HMpCXmZxSOb0">--</div>
     </div>
   </div>
 </div>
 
 <!-- 销售个人目标监控 -->
-<div class="panel" style="margin-bottom:12px">
-  <div class="panel-title">🏆 销售个人目标监控（Q3业绩目标）</div>
-  <div class="kh-summary-grid" id="salesTargetGrid"></div>
+<div class="panel" style="margin-bottom:12px" data-page-node-id="MfEERu7VuRByAvPyoDlsfW">
+  <div class="panel-title" data-page-node-id="UuOVSUH9c0UjkqUD0hijJp">🏆 销售个人目标监控（Q3业绩目标）</div>
+  <div class="st-grid" id="salesTargetGrid" data-page-node-id="8isI7wBqE6Om6iFmisvYZV"></div>
 </div>
 
 <!-- 客活监控 -->
-<div class="panel" style="margin-bottom:12px">
-  <div class="panel-title">🎯 客活目标达成监控（品牌名称维度 · Q3累计消耗 ≥ ¥100,000 = 1客活）</div>
+<div class="panel" style="margin-bottom:12px" data-page-node-id="Kj88jVurAGILHXB97HeSsZ">
+  <div class="panel-title" data-page-node-id="14RSVZhZjN69Zc9Beabfwc">🎯 客活目标达成监控（品牌名称维度 · Q3累计消耗 ≥ ¥100,000 = 1客活）</div>
   
   <!-- 销售汇总卡片 -->
-  <div class="kh-summary-grid" id="khSalesSummary"></div>
-  <div style="font-size:10px;color:var(--text3);margin-bottom:10px;margin-top:-2px">共 <b id="khTotalCount" style="color:var(--cyan)">--</b> 客活 · 总消耗 <b id="khTotalAmt" style="color:var(--cyan)">--</b></div>
+  <div class="kh-summary-grid" id="khSalesSummary" data-page-node-id="51PWcHvM0VYK0iuP79GBWk"></div>
+  <div style="font-size:10px;color:var(--text3);margin-bottom:10px;margin-top:-2px" data-page-node-id="IPvzKtlsQUfVdiIK3lZISL">共 <b id="khTotalCount" style="color:var(--cyan)" data-page-node-id="kMlBkPpOPd8RQGA5Kb75u5">--</b> 客活 · 总消耗 <b id="khTotalAmt" style="color:var(--cyan)" data-page-node-id="zh1w955XqRSfMTOQOv5hLZ">--</b></div>
   
   <!-- Tab -->
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchKehuoTab('near')" id="khTabNear">🔮 潜在客活预测</button>
-    <button class="tab-btn" onclick="switchKehuoTab('hit')" id="khTabHit">✅ 已达标客活</button>
+  <div class="tab-bar" data-page-node-id="PQt8dLiGRfRSl9KviCUcmb">
+    <button class="tab-btn active" onclick="switchKehuoTab('near')" id="khTabNear" data-page-node-id="gQt7Tm64YiBHAfFUGHJBUt">🔮 潜在客活预测</button>
+    <button class="tab-btn" onclick="switchKehuoTab('hit')" id="khTabHit" data-page-node-id="Ou9REzknd47iR13WjcJLZs">✅ 已达标客活</button>
   </div>
 
   <!-- 潜在客活预测 -->
-  <div id="khNearContent">
-    <div class="week-note" style="margin-bottom:8px">
+  <div id="khNearContent" data-page-node-id="gM647oUq5IQtC3VGrqPnFE">
+    <div class="week-note" style="margin-bottom:8px" data-page-node-id="tRIRVTkQcheQqwrVDrQz2w">
       💡 根据Q3至今日均消耗 ÷ 剩余天数推算。绿色=预计可达标，红色=有风险。
-      <b style="color:var(--cyan)">预计Q3末新增 <span id="khPredictedNew">--</span> 客活</b>
+      <b style="color:var(--cyan)" data-page-node-id="1AIKXncG6DGwAjBb30ecg9">预计Q3末新增 <span id="khPredictedNew" data-page-node-id="FKkx4yA7fiCl9g0uFfxWJZ">--</span> 客活</b>
     </div>
-    <table class="kh-table">
-      <thead><tr>
-        <th style="width:28px">#</th><th>品牌名称</th><th>集团</th><th>归属销售</th><th class="n" style="width:90px">当前消耗</th><th class="n" style="width:80px">距达标</th><th style="width:70px">进度</th><th class="n" style="width:70px">日均消耗</th><th class="n" style="width:60px">预计天数</th><th style="width:70px">预测</th>
+    <table class="kh-table" data-page-node-id="xTBtkcblkBmzVOqn3TlWQc">
+      <thead data-page-node-id="u4G6y0Sf4coWZpDs5rLQYf"><tr data-page-node-id="nvCoo3OXcmkVCPhshYkBGN">
+        <th style="width:28px" data-page-node-id="4RVsNBeY3pdgf9YHxYZfar">#</th><th data-page-node-id="nCCR6qNApUOgqx1VPHHyoF">品牌名称</th><th data-page-node-id="ZdWzRI5LHHf3IM5Xn60wRo">集团</th><th data-page-node-id="OxXkaQVenr7CBJC8Hh2dZE">归属销售</th><th class="n" style="width:90px" data-page-node-id="8efp6xjYiSoVxPe94r23F7">当前消耗</th><th class="n" style="width:80px" data-page-node-id="e6gIrM65kOCEUdDvnY6oAD">距达标</th><th style="width:70px" data-page-node-id="naBK7BeUAAujKXo5Y27fQW">进度</th><th class="n" style="width:70px" data-page-node-id="DKSWweUdfWA7h0tKahjKQb">日均消耗</th><th class="n" style="width:60px" data-page-node-id="5kG6mBZg5MGmEV66yXbgQH">预计天数</th><th style="width:70px" data-page-node-id="PV1TRrsRROjzCy4reUmX7P">预测</th>
       </tr></thead>
-      <tbody id="khNearBody"></tbody>
+      <tbody id="khNearBody" data-page-node-id="2zkkIWJPEFi39DHWDfUOeG"></tbody>
     </table>
   </div>
 
   <!-- 已达标详情 -->
-  <div id="khHitContent" style="display:none">
-    <table class="kh-table">
-      <thead><tr>
-        <th style="width:28px">#</th><th>品牌名称</th><th>集团</th><th>归属销售</th><th class="n" style="width:100px">Q3消耗(元)</th><th style="width:70px">达标状态</th>
+  <div id="khHitContent" style="display:none" data-page-node-id="fDFbgS87lgABZSyCaASRGz">
+    <table class="kh-table" data-page-node-id="5sjdE1aiNF5DrnPE8KpQ6L">
+      <thead data-page-node-id="wf9zXINriOGMirqESXWOJD"><tr data-page-node-id="YFfQHWAgs5u4UpVRQ34kow">
+        <th style="width:28px" data-page-node-id="MCWQ0MGRjwcH2zeJ94BiFZ">#</th><th data-page-node-id="NOESm5SgQJJgGtCN5jEkEu">品牌名称</th><th data-page-node-id="Ht5ga8baBzPMcwwX28serL">集团</th><th data-page-node-id="5BasqjG58Imt9gGack8juh">归属销售</th><th class="n" style="width:100px" data-page-node-id="PT46xhd2c2jiEyQyAtAnFn">Q3消耗(元)</th><th style="width:70px" data-page-node-id="ZPCp6Aw4gPC27XwqDVVbmg">达标状态</th>
       </tr></thead>
-      <tbody id="khHitBody"></tbody>
+      <tbody id="khHitBody" data-page-node-id="ALxbHDzfvaGEPUmDCyqJw8"></tbody>
     </table>
   </div>
 </div>
 
-<div class="footer">自包含版本 · 零外部依赖 · 业绩口径 = 总扣费 − 优惠券扣费 · 集团排名口径 = 总扣费(元) · 周期定义：每周四 ~ 次周三 · 已排除3个指定客户 · 多版权客户按版权数均分</div>
+<div class="footer" data-page-node-id="mOSIcorwAgujE54AxfO89i">自包含版本 · 零外部依赖 · 业绩口径 = 总扣费 − 优惠券扣费 · 集团排名口径 = 总扣费(元) · 周期定义：每周四 ~ 次周三 · 已排除3个指定客户 · 多版权客户按版权数均分</div>
 
 <script>
 // ====== DATA ======
@@ -1476,7 +1507,7 @@ const D = {
       {
         sales: "乌丽娅斯",
         count: 7,
-        target: 15,
+        target: 10,
         total: 2042939.22,
         clients: [
           {
@@ -1537,7 +1568,7 @@ const D = {
       {
         sales: "王星予",
         count: 6,
-        target: 25,
+        target: 18,
         total: 2159015.59,
         clients: [
           {
@@ -1824,8 +1855,10 @@ const D = {
       target: 9000000,
       consumption: 1803693.15,
       daily_avg: 31643.74,
-      projected: 2911224.03,
-      projected_rate: 0.32,
+      last7: 151504.90,
+      last7_daily_avg: 21643.56,
+      projected: 2561217.65,
+      projected_rate: 0.28,
       completion_rate: 0.20,
       gap: 7196306.85
     },
@@ -1834,7 +1867,9 @@ const D = {
       target: 10000000,
       consumption: 3330123.82,
       daily_avg: 58423.22,
-      projected: 5374936.69,
+      last7: 414540.18,
+      last7_daily_avg: 59220.03,
+      projected: 5402824.72,
       projected_rate: 0.54,
       completion_rate: 0.33,
       gap: 6669876.18
@@ -2240,21 +2275,31 @@ document.getElementById('distTabWeek').textContent = '👈 上周（'+D.week_lab
 
 // ====== 销售个人目标监控渲染 ======
 const stGrid = document.getElementById('salesTargetGrid');
+function fmtWan(v){ return v >= 100000000 ? (v/100000000).toFixed(2)+'亿' : (v/10000).toFixed(0)+'万'; }
 D.sales_targets.forEach(s => {
   const div = document.createElement('div');
-  div.className = 'kh-summary-item';
+  div.className = 'st-card';
   const rate = Math.round(s.completion_rate * 100);
   const projRate = Math.round(s.projected_rate * 100);
   const rateClass = rate >= 80 ? 'hit' : rate >= 50 ? 'near' : rate >= 30 ? 'risk' : 'far';
   const projClass = projRate >= 100 ? 'hit' : projRate >= 80 ? 'near' : projRate >= 60 ? 'risk' : 'far';
-  div.innerHTML = '<div class="kh-sales">'+s.sales+'</div>'+
-    '<div class="kh-count">¥'+Math.round(s.consumption/10000)+'<span style="font-size:12px;color:var(--text3)">万</span>'+
-      '<span style="font-size:11px;color:var(--text3)"> / 目标 ¥'+Math.round(s.target/10000)+'万</span></div>'+
-    '<div class="kh-progress-wrap" style="margin:4px 0;height:6px;width:100%"><span class="kh-progress-fill '+rateClass+'" style="width:'+rate+'%"></span></div>'+
-    '<div class="kh-amount">当前完成率 '+rate+'%</div>'+
-    '<div class="kh-progress-wrap" style="margin:2px 0;height:6px;width:100%"><span class="kh-progress-fill '+projClass+'" style="width:'+Math.min(projRate,100)+'%"></span></div>'+
-    '<div class="kh-amount">平推完成率 '+projRate+'%（预计 ¥'+Math.round(s.projected/10000)+'万）</div>'+
-    '<div class="kh-amount">日均 ¥'+Math.round(s.daily_avg/10000)+'万 · 缺口 ¥'+Math.round(s.gap/10000)+'万</div>';
+  div.innerHTML =
+    '<div class="st-head">'+
+      '<div class="st-name">'+s.sales+'</div>'+
+      '<div class="st-badge '+rateClass+'">完成 '+rate+'%</div>'+
+    '</div>'+
+    '<div class="st-main"><span class="num">¥'+fmtWan(s.consumption)+'</span><span class="lab">已完成业绩</span></div>'+
+    '<div class="st-meta"><span>目标 <b>¥'+fmtWan(s.target)+'</b></span><span>缺口 <b>¥'+fmtWan(s.gap)+'</b></span></div>'+
+    '<div class="st-bar"><div class="st-bar-fill '+rateClass+'" style="width:'+Math.min(rate,100)+'%"></div></div>'+
+    '<div class="st-cap">当前完成率 '+rate+'%</div>'+
+    '<div class="st-metrics">'+
+      '<div class="st-metric"><div class="k">Q3历史日均</div><div class="v">¥'+fmtWan(s.daily_avg)+'</div></div>'+
+      '<div class="st-metric"><div class="k">近7天业绩</div><div class="v">¥'+fmtWan(s.last7)+'</div></div>'+
+      '<div class="st-metric"><div class="k">近7天日均</div><div class="v">¥'+fmtWan(s.last7_daily_avg)+'</div></div>'+
+    '</div>'+
+    '<div class="st-proj"><span class="k">平推预估完成业绩</span><span class="v '+(projRate>=100?'good':'warn')+'">¥'+fmtWan(s.projected)+'</span></div>'+
+    '<div class="st-bar"><div class="st-bar-fill '+projClass+'" style="width:'+Math.min(projRate,100)+'%"></div></div>'+
+    '<div class="st-cap" style="margin-bottom:0">平推预估完成率 '+projRate+'%</div>';
   stGrid.appendChild(div);
 });
 
